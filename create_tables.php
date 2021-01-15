@@ -22,7 +22,7 @@ if ($mysqli->connect_errno) {
     echo "Failed to connect to MySQL: " . $mysqli->connect_error;
     return;
 } else {
-    echo "success connecting!";
+    echo "<strong>success connecting!</strong>";
 }
 
 // check tables and update if necessary
