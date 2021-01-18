@@ -1,0 +1,12 @@
+# database schema
+people:
+  - id
+  - name
+  - phone number
+  - date created # optional
+
+contacts:
+  - id
+  - owner # one to many
+  - name
+  - phone number
