@@ -13,4 +13,10 @@ if (!$db->is_connected()) {
     return;
 }
 
-$db->login_user($username, $password);
+$result = $db->login_user($username, $password);
+
+if ($result['error'] != 0) {
+    http_response_code($result['error']);
+}
+header('Content-Type: application/json');
+echo json_encode($result);

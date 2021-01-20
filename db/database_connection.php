@@ -59,16 +59,20 @@ class DBConnection
     {
         $result = $this->get_user_by_username($username);
         if ($result->num_rows != 1) {
-            echo "there was a problem";
-            http_response_code(500);
-            return;
+            return ["error" => 500, "error_message" => "Internal error"];
         }
-        $real_password = $result->fetch_object()->user_password;
+        $user = $result->fetch_object();
+        $real_password = $user->user_password;
         if (password_verify($password, $real_password)) {
-            // todo: complete login
-            echo "correct";
+            $message = ["error" => 0, "error_message" => ""];
+            $message["user_id"] = $user->user_id;
+            $message["user_username"] = $user->user_username;
+            $message["user_first_name"] = $user->user_first_name;
+            $message["user_last_name"] = $user->user_last_name;
+            $message["user_last_on"] = $user->last_on;
+            return $message;
         } else {
-            echo "no";
+            return ["error" => 403, "error_message" => "Incorrect username or password"];
         }
     }
 
