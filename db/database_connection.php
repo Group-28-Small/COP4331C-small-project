@@ -30,8 +30,8 @@ class DBConnection
             $this->connected = true;
         }
 
-        $this->get_user_by_username_statement = $this->connection->prepare("SELECT (user_id, user_username, user_first_name, user_last_name, created_at, last_on) FROM (users) WHERE username=?");
-        $this->create_user_statement = $this->connection->prepare("INSERT INTO users (user_password, user_username, user_first_name, user_last_name) VALUES (?, ?, ?, ?) ");
+        $this->get_user_by_username_statement = $this->connection->prepare("SELECT user_id, user_username, user_password, user_first_name, user_last_name, created_at, last_on FROM users WHERE user_username=?");
+        $this->create_user_statement = $this->connection->prepare("INSERT INTO users (user_username, user_password, user_first_name, user_last_name) VALUES (?, ?, ?, ?) ");
     }
 
     function is_connected()
@@ -55,14 +55,47 @@ class DBConnection
         return $result;
     }
 
+    function login_user($username, $password)
+    {
+        $result = $this->get_user_by_username($username);
+        if ($result->num_rows != 1) {
+            echo "there was a problem";
+            http_response_code(500);
+            return;
+        }
+        $real_password = $result->fetch_object()->user_password;
+        if (password_verify($password, $real_password)) {
+            // todo: complete login
+            echo "correct";
+        } else {
+            echo "no";
+        }
+    }
+
     function create_user($username, $password, $firstname, $lastname)
     {
+        // check if this username exists already
+        $this->get_user_by_username_statement->bind_param("s", $username);
+        $this->get_user_by_username_statement->execute();
+        $result = $this->get_user_by_username_statement->get_result();
+        if ($result->num_rows > 0) {
+            // todo: format error as json
+            echo "user exists already!";
+            http_response_code(409);
+            return;
+        }
+
         $this->create_user_statement->bind_param("ssss", $username, $password, $firstname, $lastname);
-        $this->get_user_by_id_statement->execute();
+        $this->create_user_statement->execute();
 
         $this->get_user_by_username_statement->bind_param("s", $username);
         $this->get_user_by_username_statement->execute();
         $result = $this->get_user_by_username_statement->get_result();
+        if ($result->num_rows != 1) {
+            echo "there was a problem";
+            http_response_code(500);
+            return;
+        }
         return $result;
     }
 }
