@@ -1,6 +1,13 @@
 <?php
 require_once("../../db/database_connection.php");
 $data = json_decode(file_get_contents('php://input'), true);
+if (!isset($data['username']) || !isset($data['password']) || !isset($data['firstname']) || !isset($data['lastname'])) {
+    http_response_code(400);
+    $message = ["error" => 400, "error_message" => "Missing field"];
+    header('Content-Type: application/json');
+    echo json_encode($message);
+    return;
+}
 $username = $data['username'];
 $firstname = $data['firstname'];
 $lastname = $data['lastname'];
@@ -15,4 +22,10 @@ if (!$db->is_connected()) {
     return;
 }
 
-$db->create_user($username, $password, $firstname, $lastname);
+$result = $db->create_user($username, $password, $firstname, $lastname);
+
+if ($result['error'] != 0) {
+    http_response_code($result['error']);
+}
+header('Content-Type: application/json');
+echo json_encode($result);

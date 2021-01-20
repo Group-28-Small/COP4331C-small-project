@@ -83,10 +83,7 @@ class DBConnection
         $this->get_user_by_username_statement->execute();
         $result = $this->get_user_by_username_statement->get_result();
         if ($result->num_rows > 0) {
-            // todo: format error as json
-            echo "user exists already!";
-            http_response_code(409);
-            return;
+            return ["error" => 409, "error_message" => "User exists already!"];
         }
 
         $this->create_user_statement->bind_param("ssss", $username, $password, $firstname, $lastname);
@@ -96,10 +93,17 @@ class DBConnection
         $this->get_user_by_username_statement->execute();
         $result = $this->get_user_by_username_statement->get_result();
         if ($result->num_rows != 1) {
-            echo "there was a problem";
-            http_response_code(500);
-            return;
+            return ["error" => 500, "error_message" => "Internal error"];
         }
+        $user = $result->fetch_object();
+        // TODO: repeated code. move to function?
+        $message = ["error" => 0, "error_message" => ""];
+        $message["user_id"] = $user->user_id;
+        $message["user_username"] = $user->user_username;
+        $message["user_first_name"] = $user->user_first_name;
+        $message["user_last_name"] = $user->user_last_name;
+        $message["user_last_on"] = $user->last_on;
+        return $message;
         return $result;
     }
 }
