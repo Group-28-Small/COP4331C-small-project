@@ -1,0 +1,53 @@
+body {
+  background-color: gray;
+}
+
+title {
+  background-color: lightgray;
+}
+
+header {
+  background-color: lightgray;
+  text-align: center;
+  font-size: 40px;
+  color: black;
+  outline-color: black;
+}
+
+div {
+  text-align: center;
+  background-color: white;
+  border-color: black;
+  border-width: thin;
+  border-style: solid;
+  font-size: 30px;
+  color: black;
+  margin: auto;
+  width: 25%;
+  border-radius: 25px
+}
+
+form {
+  background-color: lightblue;
+  text-align: center;
+  font-size: 20px;
+  color: black;
+  margin-top: 10px;
+  padding-top: 10px;
+  padding-bottom: 200px;
+  border-color: black;
+  border-width: thin;
+  border-style: solid;
+  border-radius: 25px;
+  border-top-left-radius: 0px;
+  border-top-right-radius: 0px;
+}
+
+input {
+  padding-right: 20%;
+}
+
+span.error{
+  font-size: 8px;
+  color: red;
+}
