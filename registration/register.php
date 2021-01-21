@@ -11,6 +11,7 @@
     <?php
 
       //connect
+      require_once("../db/database_connection.php");
       $mysqli = new DBConnection();
 
       //create the mySQL query based on input from newaccount.php
