@@ -10,15 +10,16 @@ example response:
 {
   "error": 0,
   "error_message": "",
-  "user_id": 9,
-  "user_username": "kurt99",
-  "user_first_name": "kurt2",
-  "user_last_name": "nonr23",
+  "id": 9,
+  "username": "kurt99",
+  "firstName": "kurt2",
+  "lastName": "nonr23",
   "user_last_on": "2021-01-20 13:55:37"
 }
 
 on error:
 {
+  "id": -1
   "error": 403,
   "error_message": "Incorrect username or password"
 }

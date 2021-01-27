@@ -65,14 +65,14 @@ class DBConnection
         $real_password = $user->user_password;
         if (password_verify($password, $real_password)) {
             $message = ["error" => 0, "error_message" => ""];
-            $message["user_id"] = $user->user_id;
-            $message["user_username"] = $user->user_username;
-            $message["user_first_name"] = $user->user_first_name;
-            $message["user_last_name"] = $user->user_last_name;
+            $message["id"] = $user->user_id;
+            $message["username"] = $user->user_username;
+            $message["firstName"] = $user->user_first_name;
+            $message["lastName"] = $user->user_last_name;
             $message["user_last_on"] = $user->last_on;
             return $message;
         } else {
-            return ["error" => 403, "error_message" => "Incorrect username or password"];
+            return ["error" => 403, "error_message" => "Incorrect username or password", "id" => -1];
         }
     }
 
@@ -93,17 +93,16 @@ class DBConnection
         $this->get_user_by_username_statement->execute();
         $result = $this->get_user_by_username_statement->get_result();
         if ($result->num_rows != 1) {
-            return ["error" => 500, "error_message" => "Internal error"];
+            return ["error" => 500, "error_message" => "Internal error", "id" => -1];
         }
         $user = $result->fetch_object();
         // TODO: repeated code. move to function?
         $message = ["error" => 0, "error_message" => ""];
-        $message["user_id"] = $user->user_id;
-        $message["user_username"] = $user->user_username;
-        $message["user_first_name"] = $user->user_first_name;
-        $message["user_last_name"] = $user->user_last_name;
+        $message["id"] = $user->user_id;
+        $message["username"] = $user->user_username;
+        $message["firstName"] = $user->user_first_name;
+        $message["lastName"] = $user->user_last_name;
         $message["user_last_on"] = $user->last_on;
         return $message;
-        return $result;
     }
 }
