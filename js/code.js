@@ -19,6 +19,8 @@ function doLogin()
 
 //	var jsonPayload = '{"login" : "' + login + '", "password" : "' + hash + '"}';
 	var jsonPayload = '{"login" : "' + login + '", "password" : "' + password + '"}';
+
+	//For us it would be api/account/login.php
 	var url = urlBase + '/Login.' + extension;
 
 	var xhr = new XMLHttpRequest();
@@ -28,25 +30,34 @@ function doLogin()
 	{
 		xhr.send(jsonPayload);
 		
+		//jsonObject contains various user properties
 		var jsonObject = JSON.parse( xhr.responseText );
 		
+		//storing user id
 		userId = jsonObject.id;
 		
+		//Checks for negative user id in case of an error
 		if( userId < 1 )
 		{
 			document.getElementById("loginResult").innerHTML = "User/Password combination incorrect";
 			return;
 		}
 		
+		//Takes the firstName and lastName from jsonObject
+		//and stores it in variables firstName and lastName
 		firstName = jsonObject.firstName;
 		lastName = jsonObject.lastName;
 
+		//Used so users aren't asked to enter in credentials every time
 		saveCookie();
-	
+		
+		//Redirect to color.html or whatever page you want to go to
+		//after logging in
 		window.location.href = "color.html";
 	}
 	catch(err)
 	{
+		//Returns the error message to user and keeps them on login page
 		document.getElementById("loginResult").innerHTML = err.message;
 	}
 
@@ -93,6 +104,7 @@ function readCookie()
 	}
 }
 
+
 function doLogout()
 {
 	userId = 0;
@@ -133,42 +145,62 @@ function addColor()
 
 function searchColor()
 {
+	// Stores whatever is in the color search box into srch
 	var srch = document.getElementById("searchText").value;
+	//Clearing out ahead of time
 	document.getElementById("colorSearchResult").innerHTML = "";
 	
+	//Initializing color list
 	var colorList = "";
 	
+	//Converts into json readable text
 	var jsonPayload = '{"search" : "' + srch + '","userId" : ' + userId + '}';
+
+	//Telling xhr what page to send the request to
 	var url = urlBase + '/SearchColors.' + extension;
 	
+	//Requests the data from the URL
 	var xhr = new XMLHttpRequest();
+	//initialization 
 	xhr.open("POST", url, true);
+	//initalization
 	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
 	try
 	{
+		//Doesn't run just making the function, called the request callback, runs when the request completes
 		xhr.onreadystatechange = function() 
-		{
+		{	
+			//If request was successful 
 			if (this.readyState == 4 && this.status == 200) 
 			{
+				//for testing
 				document.getElementById("colorSearchResult").innerHTML = "Color(s) has been retrieved";
+
+				//Converts the request to a json object
 				var jsonObject = JSON.parse( xhr.responseText );
 				
+				//jsonObject has an array with the search results, it's a certian length
 				for( var i=0; i<jsonObject.results.length; i++ )
 				{
+					//Add the color to the list 
 					colorList += jsonObject.results[i];
+					//if it is not the last object in the array, add a new line
 					if( i < jsonObject.results.length - 1 )
 					{
+						//makes a break line
 						colorList += "<br />\r\n";
 					}
 				}
-				
+				//Adds the color list to the document colorList
 				document.getElementsByTagName("p")[0].innerHTML = colorList;
 			}
 		};
+		//Send request to get the colorlist after defining the function because javascript is dumb
 		xhr.send(jsonPayload);
 	}
 	catch(err)
 	{
+		//displays error message
 		document.getElementById("colorSearchResult").innerHTML = err.message;
 	}
 	

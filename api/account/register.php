@@ -8,6 +8,7 @@ if (!isset($data['username']) || !isset($data['password']) || !isset($data['firs
     echo json_encode($message);
     return;
 }
+
 $username = $data['username'];
 $firstname = $data['firstname'];
 $lastname = $data['lastname'];
