@@ -23,9 +23,12 @@ $data = json_decode(file_get_contents('php://input'), true);
 
 // validate. check if all are not blank
 // TODO: check if valid phone or email?
-if (!isset($data['firstName']) && !isset($data['lastName']) && !isset($data['phone']) && !isset($data['email'])) {
+if (
+    !(isset($data['firstName']) && isset($data['lastName']) && isset($data['phone']) && isset($data['email'])) ||
+    !($data['firstName'] !== '' || $data['lastName'] !== '' || $data['phone'] !== '' || $data['email'] !== '')
+) {
     http_response_code(400);
-    $message = ["error" => 400, "error_message" => "Missing field"];
+    $message = ["error" => 400, "error_message" => "Missing fields"];
     header('Content-Type: application/json');
     echo json_encode($message);
     return;

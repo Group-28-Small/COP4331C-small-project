@@ -123,6 +123,10 @@ class DBConnection
         $this->get_contact_by_id_statement->bind_param("i", $record_id);
         $this->get_contact_by_id_statement->execute();
         $result = $this->get_contact_by_id_statement->get_result();
+        if ($result->num_rows != 1) {
+            return ["error" => 500, "error_message" => "Internal error", "id" => -1];
+        }
+
         $contact = $result->fetch_object();
 
         $message = ["error" => 0, "error_message" => ""];
