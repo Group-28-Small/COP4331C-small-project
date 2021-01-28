@@ -205,3 +205,62 @@ function searchColor()
 	}
 	
 }
+
+function login()
+{
+	// Stores whatever is in the color search box into srch
+	var username = document.getElementById("username").value;
+	var password = document.getElementById("password").value;
+	var firstname = document.getElementById("firstName").value;
+	//Clearing out ahead of time
+	document.getElementById("colorSearchResult").innerHTML = "";
+	
+	//Initializing color list
+	var colorList = "";
+	
+	//Converts into json readable text
+	var jsonPayload = {
+		"username": username,
+		"password": password,
+		"firstName": firstName,
+	}
+
+	//Telling xhr what page to send the request to
+	var url = urlBase + '/api/account/register' + extension;
+	
+	//Requests the data from the URL
+	var xhr = new XMLHttpRequest();
+	//initialization 
+	xhr.open("POST", url, true);
+	//initalization
+	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+	try
+	{
+		//Doesn't run just making the function, called the request callback, runs when the request completes
+		xhr.onreadystatechange = function() 
+		{	
+			//If request was successful 
+			if (this.readyState == 4 && this.status == 200) 
+			{
+				//for testing
+				document.getElementById("colorSearchResult").innerHTML = "Color(s) has been retrieved";
+
+				//Converts the request to a json object
+				var jsonObject = JSON.parse(xhr.responseText);
+				var firstName = jsonObject.firstName;
+				var lastName = jsonObject.lastName;
+
+				//Adds the color list to the document colorList
+				document.getElementsID("userGreeter")[0].innerHTML = "Hello " + firstName + " " + lastName;
+			}
+		};
+		//Send request to get the colorlist after defining the function because javascript is dumb
+		xhr.send(JSON.stringify(jsonPayload));
+	}
+	catch(err)
+	{
+		//displays error message
+		document.getElementById("colorSearchResult").innerHTML = err.message;
+	}
+	
+}

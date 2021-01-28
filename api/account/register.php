@@ -30,6 +30,8 @@ error output:
 
 require_once("../../db/database_connection.php");
 $data = json_decode(file_get_contents('php://input'), true);
+
+// validate input - make sure that none are blank
 if (!isset($data['username']) || !isset($data['password']) || !isset($data['firstName']) || !isset($data['lastName'])) {
     http_response_code(400);
     $message = ["error" => 400, "error_message" => "Missing field"];
@@ -41,6 +43,7 @@ if (!isset($data['username']) || !isset($data['password']) || !isset($data['firs
 $username = $data['username'];
 $firstname = $data['firstName'];
 $lastname = $data['lastName'];
+// hash the password with Blowfish. Salt added automatically
 $password = password_hash($data['password'], PASSWORD_BCRYPT);
 // echo $username . ' ' . $password;
 
