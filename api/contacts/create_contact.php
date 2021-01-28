@@ -7,6 +7,7 @@ example input:
     lastName "wilson"
     phone: "561-......"
     email: "kurt@kurtw.dev"
+    user_id: 4
 }
 
 example output:
@@ -34,6 +35,7 @@ $firstName = $data['firstName'];
 $lastName = $data['lastName'];
 $phone = $data['phone'];
 $email = $data['email'];
+$user_id = $data['user_id'];
 
 $db = new DBConnection();
 
@@ -42,7 +44,7 @@ if (!$db->is_connected()) {
     return;
 }
 
-$result = $db->create_contact($firstName, $lastName, $phone, $email);
+$result = $db->create_contact($firstName, $lastName, $phone, $email, $user_id);
 
 if ($result['error'] != 0) {
     http_response_code($result['error']);

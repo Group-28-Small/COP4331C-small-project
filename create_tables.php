@@ -38,8 +38,8 @@ $db->send_raw_query(
         user_phone VARCHAR(255),
         user_email VARCHAR(255),
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-        owner INT,
-        FOREIGN KEY (owner) REFERENCES users(user_id)
+        contact_owner INT NOT NULL,
+        FOREIGN KEY (contact_owner) REFERENCES users(user_id)
     )  ENGINE=INNODB; 
 "
 );
