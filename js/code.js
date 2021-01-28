@@ -1,5 +1,5 @@
 var urlBase = 'http://' + window.location.host + '/';
-var extension = 'php';
+var extension = '.php';
 
 var userId = 0;
 var firstName = "";
@@ -206,6 +206,62 @@ function searchColor()
 	
 }
 
+function register() {
+	// get the data from the form
+	var username = document.getElementById("username").value;
+	var password = document.getElementById("password").value;
+	var firstname = document.getElementById("firstName").value;
+	var lastName = document.getElementById("lastName").value;
+	// disable the button
+	document.getElementById("submit-button").disabled = true;
+
+	var jsonPayload = {
+		"username": username,
+		"password": password,
+		"firstName": firstName,
+		"lastName": lastName,
+	}
+
+	var url = urlBase + '/api/account/register' + extension;
+
+	//Requests the data from the URL
+	var xhr = new XMLHttpRequest();
+	//initialization 
+	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+	xhr.open("POST", url, true);
+	try {
+		//Doesn't run, just making the function, called the request callback, runs when the request completes
+		xhr.onreadystatechange = function () {	// when the response comes from the server
+			//If request was successful 
+			// state 4 is DONE, 200 is successful
+			if (this.readyState == 4 && this.status == 200) {
+				// when the request succeeds
+				// redirect to success/login
+				// redirect
+				window.location.href(urlBase + '/index.html');
+				// return just in case
+				return;
+			} else if (this.readyState == 4) {
+				// error:
+				var jsonObject = JSON.parse(xhr.responseText);
+				var error = jsonObject.error;
+				if (error != 0) {
+					// registration failed, possibly notify user?
+					document.getElementsID("userGreeter")[0].innerHTML = "Hello " + firstName + " " + lastName;
+				} else {
+				}
+			}
+		};
+	}
+	catch (err) {
+		//displays error message
+		document.getElementById("colorSearchResult").innerHTML = err.message;
+	}
+	// we do this last, so that the xhr client knows what to do with the response data
+	//Send request to get the colorlist after defining the function because javascript is dumb
+	xhr.send(JSON.stringify(jsonPayload));
+}
+
 function login()
 {
 	// Stores whatever is in the color search box into srch
@@ -226,7 +282,7 @@ function login()
 	}
 
 	//Telling xhr what page to send the request to
-	var url = urlBase + '/api/account/register' + extension;
+	var url = urlBase + '/api/account/login' + extension;
 	
 	//Requests the data from the URL
 	var xhr = new XMLHttpRequest();
