@@ -1,30 +1,37 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
-
+  
   <head>
     <meta charset="utf-8">
-    <title>Login Page</title>
+    <title>Registraion Page</title>
+    <script type="text/javascript" src="js/code.js"></script>
     <link rel="stylesheet" href="styles.css">
   </head>
 
-
   <body>
     <header>
-      Hello and Welcome!
+      Registraion
     </header>
     <br><br><br><br>
     <div class="container">
-      Login
-      <form action="api/account/login.php">
+      Enter New Account:
+      <form action="register.php" method="get">
         <label for="username">Username:</label>
         <input type="text" id="username" name="user">
         <br><br>
         <label for="password">Password:</label>
         <input type="password" id="password" name="pass">
         <br><br>
+        
+        <label for="firstName">First Name:</label>
+        <input type="firstName" id="firstName" name="first">
+        <br><br>
+        
+        <label for="lastName">Last Name:</label>
+        <input type="lastName" id="lastName" name="last">
+        <br><br>
         <input type="submit" value="Submit" style="padding-right: 6px;align:center;">
         <br>
-        <a href="/registration/newaccount.php" style="font-size:16px;">Don't have an account? Click here!</a>
       </form>
     </div>
   </body>
