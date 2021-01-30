@@ -24,7 +24,7 @@ div {
   color: black;
   margin: auto;
   width: 25%;
-  border-radius: 25px
+  border-radius: 5px
 }
 
 form {
@@ -38,9 +38,12 @@ form {
   border-color: black;
   border-width: thin;
   border-style: solid;
-  border-radius: 25px;
+  border-radius: 5px;
   border-top-left-radius: 0px;
   border-top-right-radius: 0px;
+  border-right-width: 0px;
+  border-left-width: 0px;
+  border-bottom-width: 0px;
 }
 
 input {
