@@ -8,6 +8,7 @@ class DBConnection
     private $create_user_statement;
     private $create_contact_statement;
     private $get_contact_by_id_statement;
+    private $delete_contact_by_id_statement;
 
     function __construct()
     {
@@ -39,6 +40,9 @@ class DBConnection
         // TODO: get_all_contacts_for_user
         // TODO: search_user_contacts (by ???)
         // TODO: create, update...
+
+        // Deletes based off contact id and owner id
+        $this->delete_contact_by_id_statement = $this->connection->prepare("DELETE from contacts WHERE contact_id=? AND owner=?");
     }
 
     function is_connected()
@@ -137,5 +141,22 @@ class DBConnection
         $message["email"] = $contact->user_email;
         $message["created_at"] = $contact->created_at;
         return $message;
+    }
+
+    function delete_contact_by_id($contact_id, $owner_id)
+    {
+        $this->delete_contact_by_id_statement->bind_param("ii", $contact_id, $owner_id);
+        $this->delete_contact_by_id_statement->execute();
+
+        // Check it was deleted?
+        // Change contact_id to record_id for consistency?
+        $this->get_contact_by_id_statement->bind_param("i", $contact_id);
+        $this->get_contact_by_id_statement->execute();
+        $result = $this->get_contact_by_id_statement->get_result();
+        if ($result->num_rows != 0)
+        {
+            return ["error" => 500, "error_message" => "Internal error", "id" => -1];
+        }
+        // Return statement necessary?
     }
 }
