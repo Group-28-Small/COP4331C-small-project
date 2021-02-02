@@ -144,8 +144,9 @@ class DBConnection
     function get_contacts_by_user($user_id){
         $this->get_contacts_by_user_statement->bind_param("i", $user_id);
         $this->get_contacts_by_user_statement->execute();
-        $result = $this->get_contact_by_id_statement->get_result();
+        $result = $this->get_contacts_by_user_statement->get_result();
         $results = [];
+        $contact = null;
         while($contact = $result->fetch_object()){
             array_push($results, ["contact_id" => $contact->contact_id, "firstName"=>$contact->first_name, "lastName" => $contact->last_name, "phone"=>$contact->phone, "email"=>$contact->email, "created_at"=>$contact->created_at]);
         }

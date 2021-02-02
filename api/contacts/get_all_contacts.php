@@ -1,6 +1,8 @@
 <?php
 // use get_all_contacts_for_user
 
+require_once("../../db/database_connection.php");
+$data = json_decode(file_get_contents('php://input'), true);
 if (!isset($data['user_id'])) {
     http_response_code(400);
     $message = ["error" => 400, "error_message" => "Missing fields"];
