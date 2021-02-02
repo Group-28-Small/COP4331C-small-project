@@ -8,11 +8,8 @@ class DBConnection
     private $create_user_statement;
     private $create_contact_statement;
     private $get_contact_by_id_statement;
-<<<<<<< HEAD
     private $delete_contact_by_id_statement;
-=======
     private $get_contacts_by_user_statement;
->>>>>>> 6c17d961d8100ae1526a1cbf2269424b8b5df94b
 
     function __construct()
     {
@@ -47,7 +44,7 @@ class DBConnection
         // TODO: create, update...
 
         // Deletes based off contact id and owner id
-        $this->delete_contact_by_id_statement = $this->connection->prepare("DELETE from contacts WHERE contact_id=? AND owner=?");
+        $this->delete_contact_by_id_statement = $this->connection->prepare("DELETE from contacts WHERE contact_id=? AND contact_owner=?");
     }
 
     function is_connected()
@@ -148,7 +145,6 @@ class DBConnection
         return $message;
     }
 
-<<<<<<< HEAD
     function delete_contact_by_id($contact_id, $owner_id)
     {
         $this->delete_contact_by_id_statement->bind_param("ii", $contact_id, $owner_id);
@@ -164,7 +160,9 @@ class DBConnection
             return ["error" => 500, "error_message" => "Internal error", "id" => -1];
         }
         // Return statement necessary?
-=======
+        return true;
+    }
+
     function get_contacts_by_user($user_id){
         $this->get_contacts_by_user_statement->bind_param("i", $user_id);
         $this->get_contacts_by_user_statement->execute();
@@ -176,6 +174,5 @@ class DBConnection
         }
         return $results;        
 
->>>>>>> 6c17d961d8100ae1526a1cbf2269424b8b5df94b
     }
 }
