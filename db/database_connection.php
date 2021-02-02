@@ -11,6 +11,7 @@ class DBConnection
     private $delete_contact_by_id_statement;
     private $get_contacts_by_user_statement;
     private $search_contacts_statement;
+    private $update_contact_by_id_statement;
 
     function __construct()
     {
@@ -47,6 +48,14 @@ class DBConnection
 
         // Deletes based off contact id and owner id
         $this->delete_contact_by_id_statement = $this->connection->prepare("DELETE from contacts WHERE contact_id=? AND contact_owner=?");
+
+        // Edits contact based off contact id and owner id
+        /*
+        UPDATE table_name
+        SET some_column = some_value
+        WHERE some_column = some_value;
+        */
+        $this->update_contact_by_id_statement = $this->connection->prepare("UPDATE contacts SET first_name=?, last_name=?, phone=?, email=? WHERE contact_id=? AND contact_owner=?"); 
     }
 
     function is_connected()
@@ -162,7 +171,9 @@ class DBConnection
             return ["error" => 500, "error_message" => "Internal error", "id" => -1];
         }
         // Return statement necessary?
+        return true;
     }
+    
     function get_contacts_by_user($user_id){
         $this->get_contacts_by_user_statement->bind_param("i", $user_id);
         $this->get_contacts_by_user_statement->execute();
@@ -176,6 +187,7 @@ class DBConnection
         return $results;        
 
     }
+    
     function search_contacts($user_id, $search_string){
         $search_string = '%' . $search_string . '%';
         $this->search_contacts_statement->bind_param("issss", $user_id, $search_string, $search_string, $search_string, $search_string);
@@ -192,6 +204,16 @@ class DBConnection
         $results["error"] = 0;
         $results["error_message"] = "";
         return $results;        
+
+    }
+
+    function update_contact_by_id($firstName, $lastName, $phone, $email, $contact_id, $contact_owner)
+    {
+        $this->update_contact_by_id_statement->bind_param("ssssii", $firstName, $lastName, $phone, $email, $contact_id, $contact_owner);
+        $this->update_contact_by_id_statement->execute();
+        
+        // TODO: return statement -> what should it return exactly
+        //                        -> and how will be handled?  
 
     }
 }
