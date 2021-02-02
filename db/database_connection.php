@@ -8,7 +8,11 @@ class DBConnection
     private $create_user_statement;
     private $create_contact_statement;
     private $get_contact_by_id_statement;
+<<<<<<< HEAD
     private $delete_contact_by_id_statement;
+=======
+    private $get_contacts_by_user_statement;
+>>>>>>> 6c17d961d8100ae1526a1cbf2269424b8b5df94b
 
     function __construct()
     {
@@ -35,8 +39,9 @@ class DBConnection
 
         $this->get_user_by_username_statement = $this->connection->prepare("SELECT user_id, user_username, user_password, user_first_name, user_last_name, created_at, last_on FROM users WHERE user_username=?");
         $this->create_user_statement = $this->connection->prepare("INSERT INTO users (user_username, user_password, user_first_name, user_last_name) VALUES (?, ?, ?, ?) ");
-        $this->create_contact_statement = $this->connection->prepare("INSERT INTO contacts (user_first_name, user_last_name, user_phone, user_email, contact_owner) VALUES (?, ?, ?, ?, ?) ");
-        $this->get_contact_by_id_statement = $this->connection->prepare("SELECT contact_id, user_first_name, user_last_name,user_phone, user_email, created_at from contacts WHERE contact_id=?");
+        $this->create_contact_statement = $this->connection->prepare("INSERT INTO contacts (first_name, last_name, phone, email, contact_owner) VALUES (?, ?, ?, ?, ?) ");
+        $this->get_contact_by_id_statement = $this->connection->prepare("SELECT contact_id, first_name, last_name, phone, email, created_at from contacts WHERE contact_id=?");
+        $this->get_contacts_by_user_statement = $this->connection->prepare("SELECT contact_id, first_name, last_name, phone, email, created_at from contacts WHERE contact_owner=?");
         // TODO: get_all_contacts_for_user
         // TODO: search_user_contacts (by ???)
         // TODO: create, update...
@@ -135,14 +140,15 @@ class DBConnection
 
         $message = ["error" => 0, "error_message" => ""];
         $message["contact_id"] = $contact->contact_id;
-        $message["firstName"] = $contact->user_first_name;
-        $message["lastName"] = $contact->user_last_name;
-        $message["phone"] = $contact->user_phone;
-        $message["email"] = $contact->user_email;
+        $message["firstName"] = $contact->first_name;
+        $message["lastName"] = $contact->last_name;
+        $message["phone"] = $contact->phone;
+        $message["email"] = $contact->email;
         $message["created_at"] = $contact->created_at;
         return $message;
     }
 
+<<<<<<< HEAD
     function delete_contact_by_id($contact_id, $owner_id)
     {
         $this->delete_contact_by_id_statement->bind_param("ii", $contact_id, $owner_id);
@@ -158,5 +164,18 @@ class DBConnection
             return ["error" => 500, "error_message" => "Internal error", "id" => -1];
         }
         // Return statement necessary?
+=======
+    function get_contacts_by_user($user_id){
+        $this->get_contacts_by_user_statement->bind_param("i", $user_id);
+        $this->get_contacts_by_user_statement->execute();
+        $result = $this->get_contacts_by_user_statement->get_result();
+        $results = [];
+        $contact = null;
+        while($contact = $result->fetch_object()){
+            array_push($results, ["contact_id" => $contact->contact_id, "firstName"=>$contact->first_name, "lastName" => $contact->last_name, "phone"=>$contact->phone, "email"=>$contact->email, "created_at"=>$contact->created_at]);
+        }
+        return $results;        
+
+>>>>>>> 6c17d961d8100ae1526a1cbf2269424b8b5df94b
     }
 }

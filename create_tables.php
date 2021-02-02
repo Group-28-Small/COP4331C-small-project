@@ -33,10 +33,10 @@ $db->send_raw_query(
     "
     CREATE TABLE IF NOT EXISTS contacts (
         contact_id INT AUTO_INCREMENT PRIMARY KEY,
-        user_first_name VARCHAR(255) NOT NULL,
-        user_last_name VARCHAR(255),
-        user_phone VARCHAR(255),
-        user_email VARCHAR(255),
+        first_name VARCHAR(255) NOT NULL,
+        last_name VARCHAR(255),
+        phone VARCHAR(255),
+        email VARCHAR(255),
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         contact_owner INT NOT NULL,
         FOREIGN KEY (contact_owner) REFERENCES users(user_id)
