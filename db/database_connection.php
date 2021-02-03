@@ -172,7 +172,7 @@ class DBConnection
         while($contact = $result->fetch_object()){
             array_push($results, ["contact_id" => $contact->contact_id, "firstName"=>$contact->first_name, "lastName" => $contact->last_name, "phone"=>$contact->phone, "email"=>$contact->email, "created_at"=>$contact->created_at]);
         }
-        array_push($results, ["error"=>"", "error_message"=>""]);
+        array_push($results, ["error"=>0, "error_message"=>""]);
         return $results;        
 
     }
@@ -182,11 +182,15 @@ class DBConnection
         $this->search_contacts_statement->execute();
         $result = $this->search_contacts_statement->get_result();
         $results = [];
+        $results['results'] = [];
         $contact = null;
+
         while($contact = $result->fetch_object()){
-            array_push($results, ["contact_id" => $contact->contact_id, "firstName"=>$contact->first_name, "lastName" => $contact->last_name, "phone"=>$contact->phone, "email"=>$contact->email, "created_at"=>$contact->created_at]);
+            array_push($results['results'], ["contact_id" => $contact->contact_id, "firstName"=>$contact->first_name, "lastName" => $contact->last_name, "phone"=>$contact->phone, "email"=>$contact->email, "created_at"=>$contact->created_at]);
         }
-        array_push($results, ["error"=>"", "error_message"=>""]);
+        // array_push($results, ["error"=>"", "error_message"=>""]);
+        $results["error"] = 0;
+        $results["error_message"] = "";
         return $results;        
 
     }
