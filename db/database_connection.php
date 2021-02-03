@@ -10,6 +10,7 @@ class DBConnection
     private $get_contact_by_id_statement;
     private $delete_contact_by_id_statement;
     private $get_contacts_by_user_statement;
+    private $search_contacts_statement;
 
     function __construct()
     {
@@ -39,6 +40,7 @@ class DBConnection
         $this->create_contact_statement = $this->connection->prepare("INSERT INTO contacts (first_name, last_name, phone, email, contact_owner) VALUES (?, ?, ?, ?, ?) ");
         $this->get_contact_by_id_statement = $this->connection->prepare("SELECT contact_id, first_name, last_name, phone, email, created_at from contacts WHERE contact_id=?");
         $this->get_contacts_by_user_statement = $this->connection->prepare("SELECT contact_id, first_name, last_name, phone, email, created_at from contacts WHERE contact_owner=?");
+        $this->search_contacts_statement = $this->connection->prepare("SELECT contact_id, first_name, last_name, phone, email, created_at from contacts WHERE contact_owner=? AND (first_name LIKE ? or last_name LIKE ? or phone LIKE ? or email LIKE ?)");
         // TODO: get_all_contacts_for_user
         // TODO: search_user_contacts (by ???)
         // TODO: create, update...
@@ -170,6 +172,21 @@ class DBConnection
         while($contact = $result->fetch_object()){
             array_push($results, ["contact_id" => $contact->contact_id, "firstName"=>$contact->first_name, "lastName" => $contact->last_name, "phone"=>$contact->phone, "email"=>$contact->email, "created_at"=>$contact->created_at]);
         }
+        array_push($results, ["error"=>"", "error_message"=>""]);
+        return $results;        
+
+    }
+    function search_contacts($user_id, $search_string){
+        $search_string = '%' . $search_string . '%';
+        $this->search_contacts_statement->bind_param("issss", $user_id, $search_string, $search_string, $search_string, $search_string);
+        $this->search_contacts_statement->execute();
+        $result = $this->search_contacts_statement->get_result();
+        $results = [];
+        $contact = null;
+        while($contact = $result->fetch_object()){
+            array_push($results, ["contact_id" => $contact->contact_id, "firstName"=>$contact->first_name, "lastName" => $contact->last_name, "phone"=>$contact->phone, "email"=>$contact->email, "created_at"=>$contact->created_at]);
+        }
+        array_push($results, ["error"=>"", "error_message"=>""]);
         return $results;        
 
     }
