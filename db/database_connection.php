@@ -39,7 +39,7 @@ class DBConnection
         $this->create_contact_statement = $this->connection->prepare("INSERT INTO contacts (first_name, last_name, phone, email, contact_owner) VALUES (?, ?, ?, ?, ?) ");
         $this->get_contact_by_id_statement = $this->connection->prepare("SELECT contact_id, first_name, last_name, phone, email, created_at from contacts WHERE contact_id=?");
         $this->get_contacts_by_user_statement = $this->connection->prepare("SELECT contact_id, first_name, last_name, phone, email, created_at from contacts WHERE contact_owner=?");
-        $this->search_contacts_statement = $this->connection->prepare("SELECT contact_id, first_name, last_name, phone, email, created_at from contacts WHERE contact_owner=? AND (first_name LIKE ?% or last_name LIKE ?% or phone LIKE ?% or email LIKE ?%)");
+        $this->search_contacts_statement = $this->connection->prepare("SELECT contact_id, first_name, last_name, phone, email, created_at from contacts WHERE contact_owner=? AND (first_name LIKE ? or last_name LIKE ? or phone LIKE ? or email LIKE ?)");
         // TODO: get_all_contacts_for_user
         // TODO: search_user_contacts (by ???)
         // TODO: create, update...
@@ -157,6 +157,7 @@ class DBConnection
 
     }
     function search_contacts($user_id, $search_string){
+        $search_string = '%' . $search_string . '%';
         $this->search_contacts_statement->bind_param("issss", $user_id, $search_string, $search_string, $search_string, $search_string);
         $this->search_contacts_statement->execute();
         $result = $this->search_contacts_statement->get_result();
