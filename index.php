@@ -25,7 +25,7 @@
         <br><br>
         <input type="submit" value="Submit" style="padding-right: 6px;align:center;" onclick="doLogin();">
         <br>
-        <a href="http://cop4331small-env.eba-tiprek3s.us-east-1.elasticbeanstalk.com/registration/newaccount.php" style="font-size:16px;">Don't have an account? Click here!</a>
+        <a href="/registration/newaccount.php" style="font-size:16px;">Don't have an account? Click here!</a>
       </form>
     </div>
   </body>
