@@ -54,3 +54,8 @@ span.error{
   font-size: 20px;
   color: red;
 }
+
+p.error{
+  font-size: 16px;
+  color: red;
+}

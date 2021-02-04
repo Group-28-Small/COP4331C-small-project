@@ -210,7 +210,7 @@ function register() {
 	// get the data from the form
 	var username = document.getElementById("username").value;
 	var password = document.getElementById("password").value;
-	var firstname = document.getElementById("firstName").value;
+	var firstName = document.getElementById("firstName").value;
 	var lastName = document.getElementById("lastName").value;
 	// disable the button
 	document.getElementById("submit-button").disabled = true;
@@ -227,8 +227,8 @@ function register() {
 	//Requests the data from the URL
 	var xhr = new XMLHttpRequest();
 	//initialization 
-	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
 	xhr.open("POST", url, true);
+	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
 	try {
 		//Doesn't run, just making the function, called the request callback, runs when the request completes
 		xhr.onreadystatechange = function () {	// when the response comes from the server
@@ -238,7 +238,7 @@ function register() {
 				// when the request succeeds
 				// redirect to success/login
 				// redirect
-				window.location.href(urlBase + '/index.html');
+				window.location.href = urlBase + '/index.php';
 				// return just in case
 				return;
 			} else if (this.readyState == 4) {
@@ -247,8 +247,8 @@ function register() {
 				var error = jsonObject.error;
 				if (error != 0) {
 					// registration failed, possibly notify user?
-					document.getElementsID("userGreeter")[0].innerHTML = "Hello " + firstName + " " + lastName;
-				} else {
+					document.getElementById("userTaken").innerHTML = "Sorry! Username, \"" + username + "\", is already in use. Please try again."
+					document.getElementById("submit-button").disabled = false;
 				}
 			}
 		};
