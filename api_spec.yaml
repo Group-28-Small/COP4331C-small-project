@@ -1,0 +1,252 @@
+swagger: '2.0'
+info:
+  description: This is a simple API
+  version: 1.0.0
+  title: Simple Inventory API
+  # put the contact info for your development or API team
+  contact:
+    email: kurt@kurtw.dev
+
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+paths:
+  /accounts/login.php:
+    post:
+      description: log in with proivded credentials
+      parameters:
+        - in: body
+          name: loginItem
+          description: accountCredentials
+          schema: 
+            $ref: '#/definitions/accountCredentials'
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      responses:
+        200:
+          description: ok
+          schema:
+            $ref: '#/definitions/accountDetails'
+        403:
+          description: bad credentials
+          schema:
+            $ref: '#/definitions/error'
+        500:
+          description: server error
+  /accounts/register.php:
+    post:
+      description: create a new account with proivded credentials
+      parameters:
+        - in: body
+          name: newAccount
+          description: newAccountDetails
+          schema: 
+            $ref: '#/definitions/newAccountDetails'
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      responses:
+        200:
+          description: ok
+          schema:
+            $ref: '#/definitions/accountDetails'
+        403:
+          description: missing value
+          schema:
+            $ref: '#/definitions/error'
+        500:
+          description: server error
+  /contacts/create_contact.php:
+    post:
+      description: create a new contact with proivded details
+      parameters:
+        - in: body
+          name: newContactItem
+          description: newContactDetails
+          schema: 
+            $ref: '#/definitions/newContactDetails'
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      responses:
+        200:
+          description: ok
+          schema:
+            $ref: '#/definitions/newContactResponse'
+        403:
+          description: missing value
+          schema:
+            $ref: '#/definitions/error'
+        500:
+          description: server error
+  /contacts/delete.php:
+    post:
+      description: remove a contact
+      parameters:
+        - in: body
+          name: deleteContact
+          description: deleteContactDetails
+          schema: 
+            $ref: '#/definitions/deleteContactDetails'
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      responses:
+        200:
+          description: ok
+        403:
+          description: missing value
+          schema:
+            $ref: '#/definitions/error'
+        500:
+          description: server error
+definitions:
+  error:
+    type: object
+    required:
+      - error
+      - error_message
+    properties:
+      error:
+        type: integer
+        example: 403
+      error_message:
+        type: string
+        example: "bad username or passsword"
+  accountCredentials:
+    type: object
+    required:
+      - username
+      - password
+    properties:
+      username:
+        type: string
+        example: "kurtoid"
+      password:
+        type: string
+        example: "12345678"
+  accountDetails:
+    type: object
+    required:
+      - error
+      - error_message
+      - id
+      - firstName
+      - lastName
+      - user_last_on
+    properties:
+      error:
+        type: integer
+        example: 0
+      error_message:
+        type: string
+        example: ""
+      username:
+        type: string
+        example: "kurtoid"
+      firstName:
+        type: string
+        example: "kurt"
+      lastName:
+        type: string
+        example: "wilson"
+      user_last_on:
+        type: string
+        example: "2021-01-20 13:55:37"
+  newAccountDetails:
+    type: object
+    required:
+      - username
+      - password
+      - firstName
+      - lastName
+    properties:
+      username:
+        type: string
+        example: "kurtoid"
+      firstName:
+        type: string
+        example: "kurt"
+      lastName:
+        type: string
+        example: "wilson"
+      password:
+        type: string
+        example: "some_password"
+  newContactDetails:
+    type: object
+    required:
+      - firstName
+      - lastName
+      - phone
+      - email
+      - user_id
+    properties:
+      firstName:
+        type: string
+        example: "kurt"
+      lastName:
+        type: string
+        example: "wilson"
+      phone:
+        type: string
+        example: "555-555-5555"
+      email:
+        type: string
+        example: "kurt@kurtw.dev"
+      user_id:
+        type: integer
+        example: 4
+  newContactResponse:
+    type: object
+    required:
+      - error
+      - error_message
+      - firstName
+      - lastName
+      - phone
+      - email
+      - user_id
+    properties:
+      error:
+        type: integer
+        example: 403
+      error_message:
+        type: string
+        example: "no data!"
+      firstName:
+        type: string
+        example: "kurt"
+      lastName:
+        type: string
+        example: "wilson"
+      phone:
+        type: string
+        example: "555-555-5555"
+      email:
+        type: string
+        example: "kurt@kurtw.dev"
+      user_id:
+        type: integer
+        example: 4
+  deleteContactDetails:
+    type: object
+    required:
+      - contact_id
+      - owner_id
+    properties:
+      contact_id:
+        type: integer
+        example: 2
+      owner_id:
+        type: integer
+        example: 4
+host: cop4331small-env.eba-tiprek3s.us-east-1.elasticbeanstalk.com
+basePath: /api
+schemes: 
+  - http

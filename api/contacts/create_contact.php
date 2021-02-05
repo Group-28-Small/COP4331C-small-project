@@ -12,7 +12,11 @@ example input:
 
 example output:
 {
-
+    firstName: "kurt"
+    lastName "wilson"
+    phone: "561-......"
+    email: "kurt@kurtw.dev"
+    user_id: 4
 }
 
 error output:
