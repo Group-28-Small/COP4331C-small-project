@@ -10,6 +10,7 @@
     <br><br><br><br>
     <div class="container">
       <h2><u>Contact Manager</u></h2>
+	  <span id="nameDisplay"></span>
       <form>
 		<p>New Contact</p>
         <input type="text" name="firstName" id="firstName" placeholder="First Name"><br>
