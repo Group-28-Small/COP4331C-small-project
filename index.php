@@ -4,7 +4,7 @@
   <head>
     <meta charset="utf-8">
     <title>Login Page</title>
-    <script type="text/javascript" src="js/code.js"></script>
+    <script type="text/javascript" src="js/functionality.js"></script>
     <link rel="stylesheet" href="styles.css">
   </head>
 
@@ -23,7 +23,7 @@
         <label for="password">Password:</label>
         <input type="password" id="loginPassword">
         <br><br>
-        <input type="submit" value="Submit" style="padding-right: 6px;align:center;" onclick="doLogin();">
+        <input type="submit" value="Submit" style="padding-right: 6px;align:center;" onclick="login();">
         <br>
         <a href="/registration/newaccount.php" style="font-size:16px;">Don't have an account? Click here!</a>
       </form>

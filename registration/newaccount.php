@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <title>Contact Manager</title>
     <link rel="stylesheet" href="../styles.css">
-    <script src = '../js/code.js'></script>
+    <script src = '../js/functionality.js'></script>
   </head>
   <body>
     <header>

@@ -6,7 +6,7 @@
     <style>
       body {background-color: light-gray;}
     </style>
-    <script src = 'code.js'></script>
+    <script src = 'functionality.js'></script>
   </head>
   <body>
     <?php
