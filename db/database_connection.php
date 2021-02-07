@@ -212,8 +212,23 @@ class DBConnection
         $this->update_contact_by_id_statement->bind_param("ssssii", $firstName, $lastName, $phone, $email, $contact_id, $contact_owner);
         $this->update_contact_by_id_statement->execute();
         
-        // TODO: return statement -> what should it return exactly
-        //                        -> and how will be handled?  
+        $this->get_contact_by_id_statement->bind_param("i", $contact_id);
+        $this->get_contact_by_id_statement->execute();
+        $result = $this->get_contact_by_id_statement->get_result();
+        if ($result->num_rows != 1) {
+            return ["error" => 500, "error_message" => "Internal error", "id" => -1];
+        }
+
+        $contact = $result->fetch_object();
+
+        $message = ["error" => 0, "error_message" => ""];
+        $message["contact_id"] = $contact->contact_id;
+        $message["firstName"] = $contact->first_name;
+        $message["lastName"] = $contact->last_name;
+        $message["phone"] = $contact->phone;
+        $message["email"] = $contact->email;
+        $message["created_at"] = $contact->created_at;
+        return $message;  
 
     }
 }
