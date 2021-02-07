@@ -23,10 +23,11 @@
         <label for="password">Password:</label>
         <input type="password" id="loginPassword">
         <br><br>
-        <input type="submit" value="Submit" style="padding-right: 6px;align:center;" onclick="login();">
+        <input id="submit-button" type="button" onclick = "login()" value="Submit" style="padding-right: 6px;align:center;">
         <br>
         <a href="/registration/newaccount.php" style="font-size:16px;">Don't have an account? Click here!</a>
       </form>
+      <span id="loginResult"></span>
     </div>
   </body>
 </html>

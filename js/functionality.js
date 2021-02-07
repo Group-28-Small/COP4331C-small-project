@@ -2,6 +2,68 @@ var urlBase = 'http://' + window.location.host + '/';
 //var urlBaseTest = 'localhost' + '/';
 var extension = '.php';
 
+function login()
+{
+    userId = 0;
+    firstName = "";
+    //lastName = "";
+
+	// Stores whatever is in the color search box into srch
+	var username = document.getElementById("loginName").value;
+	var password = document.getElementById("loginPassword").value;
+	//var firstname = document.getElementById("firstName").value;
+	//Clearing out ahead of time
+	//document.getElementById("colorSearchResult").innerHTML = "";
+	
+	//Initializing color list
+	//var colorList = "";
+	
+	//Converts into json readable text
+	var jsonPayload = {
+		"username": username,
+		"password": password,
+	}
+
+	//Telling xhr what page to send the request to
+	var url = urlBase + '/api/account/login' + extension;
+	
+	var xhr = new XMLHttpRequest();
+	xhr.open("POST", url, false);
+	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+	try
+	{
+		xhr.onreadystatechange = function() 
+        {
+            if (this.readyState == 4 && this.status == 200) 
+            {
+                var jsonObject = JSON.parse( xhr.responseText );
+        
+                userId = jsonObject.id;
+        
+                if( jsonObject.error != 0 )
+                {
+                    document.getElementById("loginResult").innerHTML = "User/Password combination incorrect";
+                    return;
+                }
+        
+                firstName = jsonObject.firstName;
+                //lastName = jsonObject.lastName;
+
+                saveCookie();
+    
+                window.location.href = urlBase + '/contacts.php';
+            }
+        };
+        
+        xhr.send(JSON.stringify(jsonPayload));
+    }
+    catch(err)
+    {
+        document.getElementById("colorAddResult").innerHTML = err.message;
+    }
+}
+
+
 function register() {
 	// get the data from the form
 	var username = document.getElementById("username").value;
@@ -67,7 +129,7 @@ function saveCookie()
 	var minutes = 20;
 	var date = new Date();
 	date.setTime(date.getTime()+(minutes*60*1000));	
-	document.cookie = "firstName=" + firstName + ",lastName=" + lastName + ",userId=" + userId + ";expires=" + date.toGMTString();
+	document.cookie = "firstName=" + firstName + ",userId=" + userId + ";expires=" + date.toGMTString();
 }
 
 function readCookie()
@@ -101,64 +163,4 @@ function readCookie()
 	{
 		document.getElementById("userName").innerHTML = "Logged in as " + firstName + " " + lastName;
 	}
-}
-
-
-function login()
-{
-	// Stores whatever is in the color search box into srch
-	var username = document.getElementById("username").value;
-	var password = document.getElementById("password").value;
-	var firstname = document.getElementById("firstName").value;
-	//Clearing out ahead of time
-	//document.getElementById("colorSearchResult").innerHTML = "";
-	
-	//Initializing color list
-	//var colorList = "";
-	
-	//Converts into json readable text
-	var jsonPayload = {
-		"username": username,
-		"password": password,
-		//"firstName": firstName,
-	}
-
-	//Telling xhr what page to send the request to
-	var url = urlBase + '/api/account/login' + extension;
-	
-	//Requests the data from the URL
-	var xhr = new XMLHttpRequest();
-	//initialization 
-	xhr.open("POST", url, true);
-	//initalization
-	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
-	try
-	{
-		//Doesn't run just making the function, called the request callback, runs when the request completes
-		xhr.onreadystatechange = function() 
-		{	
-			//If request was successful 
-			if (this.readyState == 4 && this.status == 200) 
-			{
-				//for testing
-				document.getElementById("colorSearchResult").innerHTML = "Color(s) has been retrieved";
-
-				//Converts the request to a json object
-				var jsonObject = JSON.parse(xhr.responseText);
-				var firstName = jsonObject.firstName;
-				var lastName = jsonObject.lastName;
-
-				//Adds the color list to the document colorList
-				document.getElementsID("userGreeter")[0].innerHTML = "Hello " + firstName + " " + lastName;
-			}
-		};
-		//Send request to get the colorlist after defining the function because javascript is dumb
-		xhr.send(JSON.stringify(jsonPayload));
-	}
-	catch(err)
-	{
-		//displays error message
-		document.getElementById("colorSearchResult").innerHTML = err.message;
-	}
-	
 }
