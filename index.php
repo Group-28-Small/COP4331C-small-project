@@ -16,18 +16,19 @@
     <br><br><br><br>
     <div class="container">
       Login
-      <form action="api/account/login.php">
+      <form method="post">
         <label for="loginName">Username:</label>
         <input type="text" id="loginName">
         <br><br>
         <label for="password">Password:</label>
         <input type="password" id="loginPassword">
-        <br><br>
+        <br>
+        <p class="error" id="loginResult"></p>
+        <br>
         <input id="submit-button" type="button" onclick = "login()" value="Submit" style="padding-right: 6px;align:center;">
         <br>
         <a href="/registration/newaccount.php" style="font-size:16px;">Don't have an account? Click here!</a>
       </form>
-      <span id="loginResult"></span>
     </div>
   </body>
 </html>

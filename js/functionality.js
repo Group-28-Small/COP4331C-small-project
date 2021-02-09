@@ -28,7 +28,8 @@ function login()
 	var url = urlBase + '/api/account/login' + extension;
 	
 	var xhr = new XMLHttpRequest();
-	xhr.open("POST", url, false);
+	//synchronous opening is deprecated, throws up warning
+	xhr.open("POST", url, true);
 	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
 	try
 	{
@@ -39,20 +40,22 @@ function login()
                 var jsonObject = JSON.parse( xhr.responseText );
         
                 userId = jsonObject.id;
-        
-                if( jsonObject.error != 0 )
-                {
-                    document.getElementById("loginResult").innerHTML = "User/Password combination incorrect";
-                    return;
-                }
-        
                 firstName = jsonObject.firstName;
                 //lastName = jsonObject.lastName;
 
                 saveCookie();
     
                 window.location.href = urlBase + '/contacts.php';
-            }
+			} 
+			else if (this.readyState == 4) {
+				// error:
+				var jsonObject = JSON.parse(xhr.responseText);
+				var error = jsonObject.error;
+				if (error != 0) {
+					// login failed, notify user
+					document.getElementById("loginResult").innerHTML = "User/Password combination incorrect";
+				}
+			}
         };
         
         xhr.send(JSON.stringify(jsonPayload));
