@@ -3,14 +3,14 @@
   <head>
     <meta charset="utf-8">
     <title>Contacts page</title>
-	<script type="text/javascript" src="js/code.js"></script>
+	<script type="text/javascript" src="js/functionality.js"></script>
     <link rel="stylesheet" href="styles.css">
   </head>
   <body>
     <br><br><br><br>
     <div class="container">
       <h2><u>Contact Manager</u></h2>
-	  <span id="nameDisplay"></span>
+	  <span id="nameDisplay"><script>readCookie();</script></span>
       <form>
 		<p>New Contact</p>
         <input type="text" name="firstName" id="firstName" placeholder="First Name"><br>
