@@ -244,17 +244,8 @@ function loadAllContacts() {
 					for (var i = 0; i < jsonObject.results.length; i++) {
 						var contact = jsonObject.results[i];
 						console.log(contact)
-						document.getElementById("contact-list").innerHTML += `
-							    <div class="contact-card">
-								<button type="button" class="collapsible" style="align:center;width:80%">Contact 1</button>
-								<div class="contact-content" style="display:block;padding-left:2px;padding-right:2px;padding-top:2px;padding-bottom:2px;width:80%">
-									<p style="font-size:16px">${contact.firstName + " " + contact.lastName}</p>
-									<button type="button">Edit</button>
-									<button type="button">Delete</button>
-								</div>
-								</div>
+						document.getElementById("contact-list").innerHTML += add_contact_box(contact);
 
-						`
 					}
 				} else {
 					// error
@@ -271,5 +262,47 @@ function loadAllContacts() {
 	// we do this last, so that the xhr client knows what to do with the response data
 	//Send request to get the colorlist after defining the function because javascript is dumb
 	xhr.send(JSON.stringify(jsonPayload));
+
+}
+
+function add_contact_box(contact) {
+	return `
+		<div class="contact-card" id="contact_${contact.contact_id}">
+			<button type="button" onclick="toggle_block(\'contact_${contact.contact_id}\')" class="collapsible" style="align:center;width:80%">Contact 1</button>
+			<div class="contact-content" style="display:block;padding-left:2px;padding-right:2px;padding-top:2px;padding-bottom:2px;width:80%">
+				<div style="font-size:24px">${contact.firstName + " " + contact.lastName}</div>
+				<div style="font-size:16px"><div style="display:inline-block" onclick="copy_on_click(\'${contact.phone}\')">${contact.phone}</div> <div style="display:inline-block" onclick="copy_on_click(\'${contact.email}\')">${contact.email}</div></div>
+				<button type="button">Edit</button>
+				<button onclick="delete_contact(\'${contact.contact_id}\')" type="button">Delete</button>
+			</div>
+		</div>
+       `
+}
+
+function delete_contact(contact_id) {
+
+}
+
+function toggle_block(id) {
+	console.log("toggling " + id);
+	var blk = document.getElementById(id);
+	blk.children[0].classList.toggle("active");
+	var content = blk.children[1];
+	if (content.style.display === "block") {
+		content.style.display = "none";
+	} else {
+		content.style.display = "block";
+	}
+}
+
+function copy_on_click(text) {
+	toastr.info("Copied " + text);
+	var dummy = document.createElement("textarea");
+	// https://stackoverflow.com/questions/33855641/copy-output-of-a-javascript-variable-to-the-clipboard
+	document.body.appendChild(dummy);
+	dummy.value = text;
+	dummy.select();
+	document.execCommand("copy");
+	document.body.removeChild(dummy);
 
 }
