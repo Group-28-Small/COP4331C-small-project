@@ -24,6 +24,7 @@
 		<input type="text" name="emailAddr" id="emailAddr" placeholder="Email (e.g. example@email.com)"><br>
         
         <input type="button" value="Add New Contact!" style="padding-right: 6px;align:center;" onclick="addContact()">
+		<br/>
 		<span id="addContactResult"></span>
         
       </form>
