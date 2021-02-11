@@ -216,3 +216,60 @@ function readCookie()
 		document.getElementById("nameDisplay").innerHTML = "Logged in as " + firstName + " " + lastName;
 	}
 }
+function loadAllContacts() {
+	readCookie();
+
+	var jsonPayload = {
+		user_id: userId,
+	}
+
+	var url = urlBase + '/api/contacts/get_all_contacts' + extension;
+
+	//Requests the data from the URL
+	var xhr = new XMLHttpRequest();
+
+	//initialization 
+	xhr.open("POST", url, true);
+	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+	try {
+
+		//Doesn't run, just making the function, called the request callback, runs when the request completes
+		xhr.onreadystatechange = function () {	// when the response comes from the server
+			//If request was successful 
+			// state 4 is DONE, 200 is successful
+			if (this.readyState == 4) {
+				var jsonObject = JSON.parse(xhr.responseText);
+				console.log(jsonObject);
+				if (jsonObject.error == 0) {
+					for (var i = 0; i < jsonObject.results.length; i++) {
+						var contact = jsonObject.results[i];
+						console.log(contact)
+						document.getElementById("contact-list").innerHTML += `
+							    <div class="contact-card">
+								<button type="button" class="collapsible" style="align:center;width:80%">Contact 1</button>
+								<div class="contact-content" style="display:block;padding-left:2px;padding-right:2px;padding-top:2px;padding-bottom:2px;width:80%">
+									<p style="font-size:16px">${contact.firstName + " " + contact.lastName}</p>
+									<button type="button">Edit</button>
+									<button type="button">Delete</button>
+								</div>
+								</div>
+
+						`
+					}
+				} else {
+					// error
+					console.log("error");
+				}
+			}
+		};
+	}
+	catch (err) {
+		//displays error message
+		// document.getElementById("colorSearchResult").innerHTML = err.message;
+	}
+
+	// we do this last, so that the xhr client knows what to do with the response data
+	//Send request to get the colorlist after defining the function because javascript is dumb
+	xhr.send(JSON.stringify(jsonPayload));
+
+}

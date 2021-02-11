@@ -183,7 +183,8 @@ class DBConnection
         while($contact = $result->fetch_object()){
             array_push($results['results'], ["contact_id" => $contact->contact_id, "firstName"=>$contact->first_name, "lastName" => $contact->last_name, "phone"=>$contact->phone, "email"=>$contact->email, "created_at"=>$contact->created_at]);
         }
-        array_push($results, ["error"=>0, "error_message"=>""]);
+        $results["error"] = 0;
+        $results["error_message"]="";
         return $results;        
 
     }

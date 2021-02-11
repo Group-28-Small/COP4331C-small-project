@@ -35,15 +35,8 @@
 		<span id="contactSearchList"></span><br>
 		
 	  </form>
-	    <div class="contact-card">
-		<button type="button" class="collapsible" style="align:center;width:80%">Contact 1</button>
-		<div class="contact-content" style="display:block;padding-left:2px;padding-right:2px;padding-top:2px;padding-bottom:2px;width:80%">
-			<p style="font-size:16px">Collapsible Contact info.</p>
-			<button type="button">Edit</button>
-			<button type="button">Delete</button>
-		</div>
-		</div>
-		<br>
+		<div id="contact-list">
+	</div>
 	
 	
     </div>
