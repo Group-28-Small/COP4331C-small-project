@@ -14,7 +14,7 @@ header {
   outline-color: black;
 }
 
-div {
+.contact-card, .container{
   text-align: center;
   background-color: white;
   border-color: black;
@@ -23,8 +23,23 @@ div {
   font-size: 30px;
   color: black;
   margin: auto;
-  width: 25%;
   border-radius: 5px
+}
+.contact-card{
+  width: 50%;
+}
+
+.container{
+  width: 50%;
+}
+
+.contact-content{
+  text-align: center;
+  background-color: white;
+  font-size: 30px;
+  color: black;
+  margin: auto;
+  width: 75%;
 }
 
 form {
