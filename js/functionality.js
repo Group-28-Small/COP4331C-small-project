@@ -131,31 +131,34 @@ function saveCookie()
 {
 	var minutes = 20;
 	var date = new Date();
-	date.setTime(date.getTime()+(minutes*60*1000));	
-	document.cookie = "";
-	document.cookie = "firstName=" + firstName + ",userId=" + userId + ",lastName=" + lastName + ";expires=" + date.toGMTString();
+	date.setTime(date.getTime() + (minutes * 60 * 1000));	
+	// before, we did something like "firstName=aaa,lastName=bbb", but this can cause issues with how cookies are read, since when reading we
+	// get all of them back as "cookie_name=value", but a decoder could confuse our custom values with actual cookie names.
+	// what we're doing now is creating one key called "account_data", and storing the account data in base64 encoded JSON, which
+	// _never_ has an "=" in it, so we don't risk confusing a cookie parser
+	account_data = { firstName: firstName, lastName: lastName, userId: userId }
+	document.cookie = "account_data=" + btoa(JSON.stringify(account_data))+ ";expires=" + date.toGMTString();
 }
 
 function readCookie()
 {
 	userId = -1;
 	var data = document.cookie;
-	var splits = data.split(",");
+	// document.cookie has data like "cookie_name=value; cookie_name=value"
+	// we're looking for "account_data=some_base_64_string"
+	var splits = data.split(";");
 	for(var i = 0; i < splits.length; i++) 
 	{
 		var thisOne = splits[i].trim();
 		var tokens = thisOne.split("=");
-		if( tokens[0] == "firstName" )
+		// found it
+		if( tokens[0] == "account_data" )
 		{
-			firstName = tokens[1];
-		}
-		else if( tokens[0] == "lastName" )
-		{
-			lastName = tokens[1];
-		}
-		else if( tokens[0] == "userId" )
-		{
-			userId = parseInt( tokens[1].trim() );
+			// now getting user data is much easier - we can treat user_data as a regular object
+			user_data = JSON.parse(atob(tokens[1]));
+			userId = user_data.userId;
+			firstName = user_data.firstName;
+			lastName = user_data.lastName;
 		}
 	}
 	
