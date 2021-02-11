@@ -65,7 +65,56 @@ function login()
         document.getElementById("colorAddResult").innerHTML = err.message;
     }
 }
+function addContact() {
+	document.getElementById("addContactResult").innerText = "Saving contact...";
+	readCookie();
+	var contactFirstName = document.getElementById("firstName").value;
+	var contactLastName = document.getElementById("lastName").value;
+	var contactPhoneNumber = document.getElementById("phoneNumber").value;
+	var contactEmail = document.getElementById("emailAddr").value;
 
+	var jsonPayload = {
+		firstName: contactFirstName,
+		lastName: contactLastName,
+		phone: contactPhoneNumber,
+		email: contactEmail,
+		user_id: userId
+	}
+
+	//Telling xhr what page to send the request to
+	var url = urlBase + '/api/contacts/create_contact' + extension;
+
+	var xhr = new XMLHttpRequest();
+	//synchronous opening is deprecated, throws up warning
+	xhr.open("POST", url, true);
+	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+	try {
+		xhr.onreadystatechange = function () {
+			if (this.readyState == 4) {
+				var jsonObject = JSON.parse(xhr.responseText);
+				console.log(jsonObject);
+				console.log(jsonObject.error)
+				// js is weird
+				if (jsonObject.error == 0) {
+					console.log("clearing fields");
+					document.getElementById("firstName").value = "";
+					document.getElementById("lastName").value = "";
+					document.getElementById("phoneNumber").value = "";
+					document.getElementById("emailAddr").value = "";
+					document.getElementById("addContactResult").innerText = "Contact added successfully";
+				} else {
+					document.getElementById("addContactResult").innerText = "Error: " + jsonObject.error_message;
+				}
+			}
+		};
+
+		xhr.send(JSON.stringify(jsonPayload));
+	}
+	catch (err) {
+		document.getElementById("addContactResult").innerText = "Error communicating with server";
+	}
+
+}
 
 function register() {
 	// get the data from the form

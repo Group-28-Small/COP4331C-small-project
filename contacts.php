@@ -4,6 +4,11 @@
     <meta charset="utf-8">
     <title>Contacts page</title>
 	<script type="text/javascript" src="js/functionality.js"></script>
+	<script>
+		document.addEventListener("DOMContentLoaded", function(){
+			loadAllContacts();
+		});
+	</script>
     <link rel="stylesheet" href="styles.css">
   </head>
   <body>
@@ -16,10 +21,10 @@
         <input type="text" name="firstName" id="firstName" placeholder="First Name"><br>
         <input type="text" name="lastName" id="lastName" placeholder="Last Name"><br>
 		<input type="text" name="phoneNumber" id="phoneNumber" placeholder="Phone Number (e.g. 123-456-7890)"><br>
-		<input type="text" name="phoneNumber" id="phoneNumber" placeholder="Email (e.g. example@email.com)"><br>
+		<input type="text" name="emailAddr" id="emailAddr" placeholder="Email (e.g. example@email.com)"><br>
         
-        <input type="submit" value="Add New Contact!" style="padding-right: 6px;align:center;" action="addContact()">
-		<span id="addColorResult"></span>
+        <input type="button" value="Add New Contact!" style="padding-right: 6px;align:center;" onclick="addContact()">
+		<span id="addContactResult"></span>
         
       </form>
 	  <form>
@@ -28,6 +33,7 @@
 		<input type="submit" action="searchContacts()" style="padding-right: 6px;align:center;"><br><br>
 		<span id="contactSearchList"></span><br>
 		
+	  </form>
 		<button type="button" class="collapsible" style="align:center;width:80%">Contact 1</button>
 		<div class="content" style="padding-left:2px;paddng-right:2px;padding-top:2px;padding-bottom:2px;width:80%">
 			<p style="font-size:16px">Collapsible Contact info.</p>
@@ -35,22 +41,6 @@
 			<button type="button">Delete</button>
 		</div>
 		<br>
-		
-		<button type="button" class="collapsible" style="align:center;width:80%">Contact 2</button>
-		<div class="content" style="padding-left:2px;paddng-right:2px;padding-top:2px;padding-bottom:2px;width:80%">
-			<p style="font-size:16px">Collapsible Contact info.</p>
-			<button type="button">Edit</button>
-			<button type="button">Delete</button>
-		</div>
-		<br>
-		
-		<button type="button" class="collapsible" style="align:center;width:80%">Contact 3</button>
-		<div class="content" style="padding-left:2px;paddng-right:2px;padding-top:2px;padding-bottom:2px;width:80%">
-			<p style="font-size:16px">Collapsible Contact info.</p>
-			<button type="button">Edit</button>
-			<button type="button">Delete</button>
-		</div>
-	  </form>
 	
 	
     </div>
