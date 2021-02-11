@@ -29,6 +29,19 @@
         <br>
         <a href="/registration/newaccount.php" style="font-size:16px;">Don't have an account? Click here!</a>
       </form>
+    <script>
+      var input = document.getElementsByTagName("input");
+      for(var i = 0; i < input.length; i++)
+      {
+        input[i].addEventListener("keyup", function(event) {
+          if(event.keyCode === 13)
+          {
+            event.preventDefault();
+            document.getElementById("submit-button").click();
+          }
+        });
+      }
+    </script>
     </div>
   </body>
 </html>
