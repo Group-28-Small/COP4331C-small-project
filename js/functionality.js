@@ -92,9 +92,7 @@ function addContact() {
 		xhr.onreadystatechange = function () {
 			if (this.readyState == 4) {
 				var jsonObject = JSON.parse(xhr.responseText);
-				console.log(jsonObject.error)
 				if (jsonObject.error == 0) {
-					console.log("clearing fields");
 					document.getElementById("firstName").value = "";
 					document.getElementById("lastName").value = "";
 					document.getElementById("phoneNumber").value = "";
