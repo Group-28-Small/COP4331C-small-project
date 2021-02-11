@@ -178,10 +178,10 @@ class DBConnection
         $this->get_contacts_by_user_statement->bind_param("i", $user_id);
         $this->get_contacts_by_user_statement->execute();
         $result = $this->get_contacts_by_user_statement->get_result();
-        $results = [];
+        $results = ["results"=>[]];
         $contact = null;
         while($contact = $result->fetch_object()){
-            array_push($results, ["contact_id" => $contact->contact_id, "firstName"=>$contact->first_name, "lastName" => $contact->last_name, "phone"=>$contact->phone, "email"=>$contact->email, "created_at"=>$contact->created_at]);
+            array_push($results['results'], ["contact_id" => $contact->contact_id, "firstName"=>$contact->first_name, "lastName" => $contact->last_name, "phone"=>$contact->phone, "email"=>$contact->email, "created_at"=>$contact->created_at]);
         }
         array_push($results, ["error"=>0, "error_message"=>""]);
         return $results;        
