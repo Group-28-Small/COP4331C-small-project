@@ -62,7 +62,22 @@ form {
 }
 
 input {
-  padding-right: 20%;
+  /* 
+    padding-right can cause unexpected behavior with long inputs, and may confuse the user
+    instead, use class selectors and the 'width' property.
+  */
+  /* padding-right: 20%; */
+}
+.login-input{
+  width: 50%;
+}
+
+.contact-entry-input{
+ width: 80%;
+}
+
+.search-input{
+  width: 90%;
 }
 
 span.error{

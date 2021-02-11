@@ -18,10 +18,10 @@
       Login
       <form method="post">
         <label for="loginName">Username:</label>
-        <input type="text" id="loginName">
+        <input type="text" id="loginName" class="login-input">
         <br><br>
         <label for="password">Password:</label>
-        <input type="password" id="loginPassword">
+        <input type="password" id="loginPassword" class="login-input">
         <br>
         <p class="error" id="loginResult"></p>
         <br>

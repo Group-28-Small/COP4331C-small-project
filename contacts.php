@@ -18,10 +18,10 @@
 	  <span id="nameDisplay"><script>readCookie();</script></span>
       <form>
 		<p>New Contact</p>
-        <input type="text" name="firstName" id="firstName" placeholder="First Name"><br>
-        <input type="text" name="lastName" id="lastName" placeholder="Last Name"><br>
-		<input type="text" name="phoneNumber" id="phoneNumber" placeholder="Phone Number (e.g. 123-456-7890)"><br>
-		<input type="text" name="emailAddr" id="emailAddr" placeholder="Email (e.g. example@email.com)"><br>
+        <input type="text" name="firstName" id="firstName" placeholder="First Name" class="contact-entry-input"><br>
+        <input type="text" name="lastName" id="lastName" placeholder="Last Name" class="contact-entry-input"><br>
+		<input type="text" name="phoneNumber" id="phoneNumber" placeholder="Phone Number (e.g. 123-456-7890)" class="contact-entry-input"><br>
+		<input type="text" name="emailAddr" id="emailAddr" placeholder="Email (e.g. example@email.com)" class="contact-entry-input"><br>
         
         <input type="button" value="Add New Contact!" style="padding-right: 6px;align:center;" onclick="addContact()">
 		<br/>
@@ -30,14 +30,14 @@
       </form>
 	  <form>
 	  <p>Search Contacts</p>
-		<input type="text" name="searchBar" id="searchBar" placeholder="Search...">
-		<input type="submit" action="searchContacts()" style="padding-right: 6px;align:center;"><br><br>
+		<input type="text" name="searchBar" id="searchBar" placeholder="Search..." class="search-input">
+		<input type="button" onclick="searchContacts()" value="Search"><br><br>
 		<span id="contactSearchList"></span><br>
 		
 	  </form>
 	    <div class="contact-card">
 		<button type="button" class="collapsible" style="align:center;width:80%">Contact 1</button>
-		<div class="contact-content" style="padding-left:2px;paddng-right:2px;padding-top:2px;padding-bottom:2px;width:80%">
+		<div class="contact-content" style="display:block;padding-left:2px;padding-right:2px;padding-top:2px;padding-bottom:2px;width:80%">
 			<p style="font-size:16px">Collapsible Contact info.</p>
 			<button type="button">Edit</button>
 			<button type="button">Delete</button>
