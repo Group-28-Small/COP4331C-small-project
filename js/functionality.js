@@ -65,6 +65,7 @@ function login()
         document.getElementById("colorAddResult").innerHTML = err.message;
     }
 }
+
 function addContact() {
 	document.getElementById("addContactResult").innerText = "Saving contact...";
 	readCookie();
@@ -95,8 +96,8 @@ function addContact() {
 				if (jsonObject.error == 0) {
 					document.getElementById("firstName").value = "";
 					document.getElementById("lastName").value = "";
-					document.getElementById("phoneNumber").value = "";
-					document.getElementById("emailAddr").value = "";
+					document.getElementById("phone").value = "";
+					document.getElementById("email").value = "";
 					document.getElementById("addContactResult").innerText = "Contact added successfully";
 				} else {
 					document.getElementById("addContactResult").innerText = "Error: " + jsonObject.error_message;
@@ -216,6 +217,7 @@ function readCookie()
 		document.getElementById("nameDisplay").innerHTML = "Logged in as " + firstName + " " + lastName;
 	}
 }
+
 function loadAllContacts() {
 	readCookie();
 
@@ -345,5 +347,59 @@ function copy_on_click(text) {
 	dummy.select();
 	document.execCommand("copy");
 	document.body.removeChild(dummy);
+}
 
+function save_edit()
+{
+  var contact_firstname = document.getElementById("edit_first").value;
+  var contact_lastname = document.getElementById("edit_last").value;
+  var contact_phone = document.getElementById("edit_phone").value;
+  var contact_email = document.getElementById("edit_email").value;
+  /*
+  // this should be moved to where we check if the request was successful 
+  document.getElementById("contact-firstname").innerHTML = contact_firstname;
+  document.getElementById("contact-lastname").innerHTML = contact_lastname;
+  document.getElementById("contact-phone").innerHTML = contact_phone;
+  document.getElementById("contact-email").innerHTML = contact_email;
+  */
+  
+  var jsonPayload = {
+		firstName: contact_firstname,
+		lastName: contact_lastname,
+		phone: contact_phone,
+		email: contact_email,
+		user_id: id
+	}
+
+	//Telling xhr what page to send the request to
+	var url = urlBase + '/api/contacts/update' + extension;
+
+	var xhr = new XMLHttpRequest();
+	//synchronous opening is deprecated, throws up warning
+	xhr.open("POST", url, true);
+	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+	try {
+		xhr.onreadystatechange = function () {
+			if (this.readyState == 4) {
+				var jsonObject = JSON.parse(xhr.responseText);
+				if (jsonObject.error == 0) {
+					document.getElementById("firstName").value = "";
+					document.getElementById("lastName").value = "";
+					document.getElementById("phoneNumber").value = "";
+					document.getElementById("emailAddr").value = "";
+					document.getElementById("addContactResult").innerText = "Contact added successfully";
+				} else {
+					document.getElementById("addContactResult").innerText = "Error: " + jsonObject.error_message;
+				}
+			}
+		};
+
+		xhr.send(JSON.stringify(jsonPayload));
+	}
+	catch (err) {
+		document.getElementById("addContactResult").innerText = "Error communicating with server";
+	}
+
+  
+  show_contact();
 }
