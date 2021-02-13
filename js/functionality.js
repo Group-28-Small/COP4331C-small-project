@@ -269,7 +269,7 @@ function loadAllContacts() {
 function add_contact_box(contact) {
 	return `
 		<div class="contact-card" id="contact_${contact.contact_id}">
-			<button type="button" onclick="toggle_block(\'contact_${contact.contact_id}\')" class="collapsible" style="align:center;width:80%">Contact 1</button>
+			<button type="button" onclick="toggle_block(\'contact_${contact.contact_id}\')" class="collapsible" style="align:center;width:80%">${contact.firstName + " " + contact.lastName}</button>
 			<div class="contact-content" style="display:block;padding-left:2px;padding-right:2px;padding-top:2px;padding-bottom:2px;width:80%">
 				<div style="font-size:24px">${contact.firstName + " " + contact.lastName}</div>
 				<div style="font-size:16px"><div style="display:inline-block" onclick="copy_on_click(\'${contact.phone}\')">${contact.phone}</div> <div style="display:inline-block" onclick="copy_on_click(\'${contact.email}\')">${contact.email}</div></div>
