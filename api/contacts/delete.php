@@ -13,6 +13,9 @@ example output:
 }
 
 error output:
+{
+    
+}
 */
 
 require_once("../../db/database_connection.php");

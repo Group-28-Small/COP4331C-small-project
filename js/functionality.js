@@ -279,8 +279,49 @@ function add_contact_box(contact) {
        `
 }
 
-function delete_contact(contact_id) {
+function delete_contact(id) {
+	readCookie();
 
+	var jsonPayload = {
+		contact_id: id,
+		owner_id: userId
+	}
+
+	var url = urlBase + '/api/contacts/delete' + extension;
+
+	//Requests the data from the URL
+	var xhr = new XMLHttpRequest();
+
+	//initialization 
+	xhr.open("POST", url, true);
+	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+
+	try {
+		// when the response comes from the server
+		xhr.onreadystatechange = function () {	
+			//If request was successful 
+			// state 4 is DONE, 200 is successful
+			if (this.readyState == 4) {
+				var response = xhr.response;
+				console.log(response);
+				if (response) {
+					// dunno what to do here
+					var card = document.getElementById("contact_" + id);
+					card.remove();  
+					console.log("success");
+				} else {
+					// error
+					console.log("error");
+				}
+			}
+		};
+	}
+	catch (err) {
+		//displays error message
+		// document.getElementById("colorSearchResult").innerHTML = err.message;
+	}
+
+	xhr.send(JSON.stringify(jsonPayload));
 }
 
 function toggle_block(id) {
