@@ -83,6 +83,31 @@ paths:
             $ref: '#/definitions/error'
         500:
           description: server error
+  /contacts/update.php:
+    post:
+      description: update a new contact with provided details
+      parameters:
+        - in: body
+          name: newContactItem
+          description: newContactDetails
+          schema: 
+            $ref: '#/definitions/newContactDetails'
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      responses:
+        200:
+          description: ok
+          schema:
+            $ref: '#/definitions/newContactResponse'
+        403:
+          description: missing value
+          schema:
+            $ref: '#/definitions/error'
+        500:
+          description: server error
+
   /contacts/delete.php:
     post:
       description: remove a contact
@@ -105,6 +130,55 @@ paths:
             $ref: '#/definitions/error'
         500:
           description: server error
+  /contacts/get_all_contacts.php:
+    post:
+      description: get all contacts for a user
+      parameters:
+        - in: body
+          name: getContacts
+          description: getContacts
+          schema: 
+            $ref: '#/definitions/getContactsByUser'
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      responses:
+        200:
+          description: list of contacts
+          schema:
+            $ref: '#/definitions/getContactsByUserResponse'
+        403:
+          description: missing value
+          schema:
+            $ref: '#/definitions/error'
+        500:
+          description: server error
+  /contacts/search.php:
+    post:
+      description: search all properties of contacts for a user
+      parameters:
+        - in: body
+          name: getContacts
+          description: getContacts
+          schema: 
+            $ref: '#/definitions/searchContactsByUser'
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      responses:
+        200:
+          description: list of contacts
+          schema:
+            $ref: '#/definitions/getContactsByUserResponse'
+        403:
+          description: missing value
+          schema:
+            $ref: '#/definitions/error'
+        500:
+          description: server error
+
 definitions:
   error:
     type: object
@@ -246,6 +320,60 @@ definitions:
       owner_id:
         type: integer
         example: 4
+  getContactsByUser:
+    type: object
+    required:
+      - user_id
+    properties:
+      user_id:
+        type: integer
+        example: 4
+  searchContactsByUser:
+    type: object
+    required:
+      - user_id
+      - search
+    properties:
+      user_id:
+        type: integer
+        example: 4
+      search:
+        type: string
+        example: "mike"
+  getContactsByUserResponse:
+    type: object
+    required:
+      - error
+      - error_message
+      - results
+    properties:
+      error:
+        type: integer
+        example: 403
+      error_message:
+        type: string
+        example: "no data!"
+      results:
+        type: array
+        items:
+          type: object
+          properties:
+            firstName:
+              type: string
+              example: "kurt"
+            lastName:
+              type: string
+              example: "wilson"
+            phone:
+              type: string
+              example: "555-555-5555"
+            email:
+              type: string
+              example: "kurt@kurtw.dev"
+            user_id:
+              type: integer
+              example: 4
+  
 host: cop4331small-env.eba-tiprek3s.us-east-1.elasticbeanstalk.com
 basePath: /api
 schemes: 

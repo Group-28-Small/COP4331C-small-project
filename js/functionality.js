@@ -99,6 +99,7 @@ function addContact() {
 					document.getElementById("phone").value = "";
 					document.getElementById("email").value = "";
 					document.getElementById("addContactResult").innerText = "Contact added successfully";
+					document.getElementById("contact-list").innerHTML += add_contact_box(jsonObject);
 				} else {
 					document.getElementById("addContactResult").innerText = "Error: " + jsonObject.error_message;
 				}
@@ -267,10 +268,74 @@ function loadAllContacts() {
 
 }
 
+function searchContacts() {
+	readCookie();
+	
+	var searchQuery = document.getElementById("searchBar").value;
+
+	var jsonPayload = {
+		user_id: userId,
+		search: searchQuery,
+	}
+	
+	document.getElementById("contact-list").innerHTML = "";
+
+	var url = urlBase + '/api/contacts/search' + extension;
+
+	//Requests the data from the URL
+	var xhr = new XMLHttpRequest();
+
+	//initialization 
+	xhr.open("POST", url, true);
+	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+	
+	try {
+
+		//Doesn't run, just making the function, called the request callback, runs when the request completes
+		xhr.onreadystatechange = function () {	// when the response comes from the server
+			//If request was successful 
+			// state 4 is DONE, 200 is successful
+			if (this.readyState == 4) {
+				var jsonObject = JSON.parse(xhr.responseText);
+				console.log(jsonObject);
+				if (jsonObject.error == 0) {
+					
+					if (jsonObject.results.length > 0)
+					{
+						for (var i = 0; i < jsonObject.results.length; i++) {
+							var contact = jsonObject.results[i];
+							console.log(contact)
+							document.getElementById("contact-list").innerHTML += add_contact_box(contact);
+
+						}
+					}
+					else
+					{
+						document.getElementById("contact-list").innerHTML = "No contacts found!";
+					}
+					
+				} else {
+					// error
+					console.log("error");
+				}
+			}
+		};
+	}
+	catch (err) {
+		//displays error message
+		// document.getElementById("colorSearchResult").innerHTML = err.message;
+	}
+
+	// we do this last, so that the xhr client knows what to do with the response data
+	//Send request to get the colorlist after defining the function because javascript is dumb
+	xhr.send(JSON.stringify(jsonPayload));
+
+}
+
 function add_contact_box(contact) {
 	return `
 		<div class="contact-card" id="contact_${contact.contact_id}">
-			<button type="button" onclick="toggle_block(\'contact_${contact.contact_id}\')" class="collapsible" style="align:center;width:80%">Contact 1</button>
+			<button type="button" onclick="toggle_block(\'contact_${contact.contact_id}\')" class="collapsible" style="align:center;width:80%">${contact.firstName + " " + contact.lastName}</button>
 			<div class="contact-content" style="display:block;padding-left:2px;padding-right:2px;padding-top:2px;padding-bottom:2px;width:80%">
 				<div style="font-size:24px">${contact.firstName + " " + contact.lastName}</div>
 				<div style="font-size:16px"><div style="display:inline-block" onclick="copy_on_click(\'${contact.phone}\')">${contact.phone}</div> <div style="display:inline-block" onclick="copy_on_click(\'${contact.email}\')">${contact.email}</div></div>
