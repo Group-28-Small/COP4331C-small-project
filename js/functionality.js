@@ -98,6 +98,7 @@ function addContact() {
 					document.getElementById("phoneNumber").value = "";
 					document.getElementById("emailAddr").value = "";
 					document.getElementById("addContactResult").innerText = "Contact added successfully";
+					document.getElementById("contact-list").innerHTML += add_contact_box(jsonObject);
 				} else {
 					document.getElementById("addContactResult").innerText = "Error: " + jsonObject.error_message;
 				}
