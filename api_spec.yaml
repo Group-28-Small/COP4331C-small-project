@@ -61,7 +61,7 @@ paths:
           description: server error
   /contacts/create_contact.php:
     post:
-      description: create a new contact with proivded details
+      description: create a new contact with provided details
       parameters:
         - in: body
           name: newContactItem
