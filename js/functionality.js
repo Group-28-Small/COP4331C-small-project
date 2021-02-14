@@ -273,6 +273,7 @@ function loadAllContacts() {
 function resetSearchList()
 {
 	document.getElementById("contact-list").innerHTML = "";
+	document.getElementById("searchBar").value = '';
 	loadAllContacts();
 }
 
