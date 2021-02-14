@@ -66,6 +66,19 @@ function login()
     }
 }
 
+function logout() {
+	userID = 0;
+	firstName = "";
+	lastName = "";
+	
+	username = "";
+	password = "";
+	
+	saveCookie();
+	
+	window.location.href = "index.php";
+}
+
 function addContact() {
 	document.getElementById("addContactResult").innerText = "Saving contact...";
 	readCookie();

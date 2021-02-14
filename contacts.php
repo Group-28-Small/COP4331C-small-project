@@ -22,6 +22,7 @@
     <div class="container">
       <h2><u>Contact Manager</u></h2>
 	  <span id="nameDisplay"><script>readCookie();</script></span>
+	  <div><button onclick="logout()" style="padding-right: 6px;align:center;">Log Out</button></div>
       <form>
 		<p>New Contact</p>
         <input type="text" name="firstName" id="firstName" placeholder="First Name" class="contact-entry-input"><br>
