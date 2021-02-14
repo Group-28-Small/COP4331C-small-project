@@ -340,14 +340,25 @@ function add_contact_box(contact) {
 			<button type="button" onclick="toggle_block(\'contact_${contact.contact_id}\')" class="collapsible" style="align:center;width:80%">${contact.firstName + " " + contact.lastName}</button>
 			<div class="contact-content" style="display:block;padding-left:2px;padding-right:2px;padding-top:2px;padding-bottom:2px;width:80%">
 				<div style="font-size:24px">${contact.firstName + " " + contact.lastName}</div>
-				<div style="font-size:16px"><div style="display:inline-block" onclick="copy_on_click(\'${contact.phone}\')">${contact.phone}</div> <div style="display:inline-block" onclick="copy_on_click(\'${contact.email}\')">${contact.email}</div></div>
-				<button type="button">Edit</button>
+				<div style="font-size:16px"><div style="display:inline-block" onclick="copy_on_click(\'${contact.phone}\')">${contact.phone}</div> 
+				<div style="display:inline-block" onclick="copy_on_click(\'${contact.email}\')">${contact.email}</div></div>
+				<button type="button" onclick="edit_contact(\'${contact.contact_id}\')">Edit</button>
 				<button onclick="delete_contact(\'${contact.contact_id}\')" type="button">Delete</button>
 			</div>
 		</div>
        `
 }
 
+<<<<<<< HEAD
+=======
+function edit_contact(id) {
+	ID = id;
+	
+	saveCookie();
+	
+	window.location.href = urlBase + 'edit' + extension;
+}
+>>>>>>> 64cbb1db9be8ac0b21f5c35580efd6cb65a7746d
 
 function delete_contact(id) {
 	readCookie();

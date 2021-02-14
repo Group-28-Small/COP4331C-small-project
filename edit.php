@@ -12,7 +12,7 @@
     </header>
     <br><br><br><br>
     <div class="container">
-      Edit Account Details:
+      Edit Account Details <span id="nameDisplay"><script>readCookie();</script></span>
       <form method="post">
         
         <label for="edit_first">First Name:</label>
