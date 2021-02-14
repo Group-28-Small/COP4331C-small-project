@@ -34,6 +34,7 @@
         
         <br>
         <input id="edit-button" type="button" onclick = "save_edit()" value="Save Changes" style="padding-right: 6px;align:center;">
+		<input id="back-button" type="button" onclick = "window.location.href = 'contacts.php'" value="Back" style="padding-right: 6px;align:center;">
         <br>
       </form>
     </div>
