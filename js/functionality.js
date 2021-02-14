@@ -270,6 +270,12 @@ function loadAllContacts() {
 
 }
 
+function resetSearchList()
+{
+	document.getElementById("contact-list").innerHTML = "";
+	loadAllContacts();
+}
+
 function searchContacts() {
 	readCookie();
 	

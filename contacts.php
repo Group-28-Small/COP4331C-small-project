@@ -37,7 +37,8 @@
 	  <form>
 	  <p>Search Contacts</p>
 		<input type="text" name="searchBar" id="searchBar" placeholder="Search..." class="search-input">
-		<input type="button" onclick="searchContacts()" value="Search"><br><br>
+		<input type="button" onclick="searchContacts()" value="Search">
+		<input type="button" onclick="resetSearchList()" value="Show All"><br><br>
 		<span id="contactSearchList"></span><br>
 		
 	  </form>
