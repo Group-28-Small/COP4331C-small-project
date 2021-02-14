@@ -96,8 +96,8 @@ function addContact() {
 				if (jsonObject.error == 0) {
 					document.getElementById("firstName").value = "";
 					document.getElementById("lastName").value = "";
-					document.getElementById("phone").value = "";
-					document.getElementById("email").value = "";
+					document.getElementById("phoneNumber").value = "";
+					document.getElementById("emailAddr").value = "";
 					document.getElementById("addContactResult").innerText = "Contact added successfully";
 					document.getElementById("contact-list").innerHTML += add_contact_box(jsonObject);
 				} else {
