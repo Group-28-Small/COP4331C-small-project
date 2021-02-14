@@ -349,8 +349,6 @@ function add_contact_box(contact) {
        `
 }
 
-<<<<<<< HEAD
-=======
 function edit_contact(id) {
 	ID = id;
 	
@@ -358,7 +356,6 @@ function edit_contact(id) {
 	
 	window.location.href = urlBase + 'edit' + extension;
 }
->>>>>>> 64cbb1db9be8ac0b21f5c35580efd6cb65a7746d
 
 function delete_contact(id) {
 	readCookie();
