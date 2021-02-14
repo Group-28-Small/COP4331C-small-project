@@ -369,7 +369,7 @@ function add_contact_box(contact) {
 		<div id="contact-phone_${contact.contact_id}">${contact.phone}</div>
 		<div id="contact-email_${contact.contact_id}">${contact.email}</div>
 		<button type="button" class="contact-button" id="button-edit_${contact.contact_id}" onclick="edit_contact(${contact.contact_id})" style="display:inline">Edit</button>
-		<button type="button" class="contact-button" id="button-delete_${contact.contact_id}" style="display:inline">Delete</button>
+		<button type="button" class="contact-button" id="button-delete_${contact.contact_id}" onclick="delete_contact(${contact.contact_id})" style="display:inline">Delete</button>
 	  </div>
 	  <div id="contact-edit_${contact.contact_id}" style="display:none">
 		<form>
