@@ -340,6 +340,7 @@ function searchContacts() {
 
 }
 
+/*
 function add_contact_box(contact) {
 	return `
 		<div class="contact-card" id="contact_${contact.contact_id}">
@@ -354,7 +355,159 @@ function add_contact_box(contact) {
 		</div>
        `
 }
+*/
 
+function add_contact_box(contact) {
+	return `
+	<div class="contact-card" id="contact_${contact.contact_id}">
+	<button type="button" class="collapsible" onclick="toggle_block(${contact.contact_id})">${contact.firstName + " " + contact.lastName}</button>
+	<div class="contact-content" style="display:block">
+	  <div id="contact-display_${contact.contact_id}" style="display:block">
+		<div id="contact-firstname_${contact.contact_id}">${contact.firstName}</div>
+		<div id="contact-lastname_${contact.contact_id}">${contact.lastName}</div>
+		<div id="contact-phone_${contact.contact_id}">${contact.phone}</div>
+		<div id="contact-email_${contact.contact_id}">${contact.email}</div>
+		<button type="button" class="contact-button" id="button-edit_${contact.contact_id}" onclick="edit_contact(${contact.contact_id})" style="display:inline">Edit</button>
+		<button type="button" class="contact-button" id="button-delete_${contact.contact_id}" style="display:inline">Delete</button>
+	  </div>
+	  <div id="contact-edit_${contact.contact_id}" style="display:none">
+		<form>
+		  <input type="text" name="edit_first" id="edit_first_${contact.contact_id}"><br>
+		  <input type="text" name="edit_last" id="edit_last_${contact.contact_id}"><br>
+		  <input type="text" name="edit_phone" id="edit_phone_${contact.contact_id}"><br>
+		  <input type="text" name="edit_email" id="edit_email_${contact.contact_id}"><br>
+		  <button type="button" class="contact-button" id="button-save_${contact.contact_id}" onclick="save_edit(${contact.contact_id})">Save</button>
+		  <button type="button" class="contact-button" id="button-cancel_${contact.contact_id}" onclick="cancel_edit(${contact.contact_id})">Cancel</button>
+		</form>
+	  </div>
+	</div>
+  </div>
+       `
+}
+
+function show_contact(id)
+{
+  var contact_display = document.getElementById("contact-display_" + id);
+  var contact_edit = document.getElementById("contact-edit_" + id);
+  
+  if(contact_edit.style.display === "block")
+    contact_edit.style.display = "none";
+  else
+    contact_edit.style.display = "block";
+  
+  if(contact_display.style.display === "none")
+    contact_display.style.display = "block";
+  else
+    contact_display.style.display = "none";
+}
+
+function show_edit(id)
+{
+  var contact_display = document.getElementById("contact-display_" + id);
+  var contact_edit = document.getElementById("contact-edit_" + id);
+  
+  if(contact_display.style.display === "block")
+    contact_display.style.display = "none";
+  else
+    contact_display.style.display = "block";
+  
+  if(contact_edit.style.display === "none")
+    contact_edit.style.display = "block";
+  else
+    contact_edit.style.display = "none";
+}
+
+function toggle_block(id)
+{
+  var block = document.getElementById("contact_" + id);
+  block.children[0].classList.toggle("active");
+	var content = block.children[1];
+	if (content.style.display === "block") {
+		content.style.display = "none";
+	} else {
+		content.style.display = "block";
+	}
+}
+
+function edit_contact(id)
+{
+  var contact_firstname = document.getElementById("contact-firstname_" + id).innerHTML;
+  var contact_lastname = document.getElementById("contact-lastname_" + id).innerHTML;
+  var contact_phone = document.getElementById("contact-phone_" + id).innerHTML;
+  var contact_email = document.getElementById("contact-email_" + id).innerHTML;
+  
+  document.getElementById("edit_first_" + id).value = contact_firstname;
+  document.getElementById("edit_last_" + id).value = contact_lastname;
+  document.getElementById("edit_phone_" + id).value = contact_phone;
+  document.getElementById("edit_email_" + id).value = contact_email;
+  
+  show_edit(id);
+}
+
+function cancel_edit(id)
+{
+  show_contact(id);
+  
+  document.getElementById("edit_first_" + id).value = "";
+  document.getElementById("edit_last_" + id).value = "";
+  document.getElementById("edit_phone_" + id).value = "";
+  document.getElementById("edit_email_" + id).value = "";
+ }
+
+
+ function save_edit(id)
+ {
+   var contact_firstname = document.getElementById("edit_first_" + id).value;
+   var contact_lastname = document.getElementById("edit_last_" + id).value;
+   var contact_phone = document.getElementById("edit_phone_" + id).value;
+   var contact_email = document.getElementById("edit_email_" + id).value;
+   
+   // this should be moved to where we check if the request was successful 
+   document.getElementById("contact-firstname_" + id).innerHTML = contact_firstname;
+   document.getElementById("contact-lastname_" + id).innerHTML = contact_lastname;
+   document.getElementById("contact-phone_" + id).innerHTML = contact_phone;
+   document.getElementById("contact-email_" + id).innerHTML = contact_email;
+   
+   
+   var jsonPayload = {
+		 firstName: contact_firstname,
+		 lastName: contact_lastname,
+		 phone: contact_phone,
+		 email: contact_email,
+		 owner_id: userId,
+		 contact_id: id
+	 }
+ 
+	 //Telling xhr what page to send the request to
+	 var url = urlBase + '/api/contacts/update' + extension;
+ 
+	 var xhr = new XMLHttpRequest();
+	 //synchronous opening is deprecated, throws up warning
+	 xhr.open("POST", url, true);
+	 xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+	 try {
+		 xhr.onreadystatechange = function () {
+			 if (this.readyState == 4) {
+				 var jsonObject = JSON.parse(xhr.responseText);
+				 if (jsonObject.error == 0) {
+					 document.getElementById("addContactResult").innerText = "Contact edited successfully";
+				 } else {
+					 document.getElementById("addContactResult").innerText = "Error: " + jsonObject.error_message;
+				 }
+			 }
+		 };
+ 
+		 xhr.send(JSON.stringify(jsonPayload));
+	 }
+	 catch (err) {
+		 document.getElementById("addContactResult").innerText = "Error communicating with server";
+	 }
+   
+   
+   show_contact(id);
+ }
+
+ /*
 function edit_contact(id) {
 	ID = id;
 	
@@ -362,7 +515,7 @@ function edit_contact(id) {
 	
 	window.location.href = urlBase + 'edit' + extension;
 }
-
+*/
 function delete_contact(id) {
 	readCookie();
 
@@ -408,6 +561,7 @@ function delete_contact(id) {
 	xhr.send(JSON.stringify(jsonPayload));
 }
 
+/*
 function toggle_block(id) {
 	console.log("toggling " + id);
 	var blk = document.getElementById(id);
@@ -419,6 +573,7 @@ function toggle_block(id) {
 		content.style.display = "block";
 	}
 }
+*/
 
 function copy_on_click(text) {
 	toastr.info("Copied " + text);
@@ -431,57 +586,4 @@ function copy_on_click(text) {
 	document.body.removeChild(dummy);
 }
 
-function save_edit()
-{
-  var contact_firstname = document.getElementById("edit_first").value;
-  var contact_lastname = document.getElementById("edit_last").value;
-  var contact_phone = document.getElementById("edit_phone").value;
-  var contact_email = document.getElementById("edit_email").value;
-  /*
-  // this should be moved to where we check if the request was successful 
-  document.getElementById("contact-firstname").innerHTML = contact_firstname;
-  document.getElementById("contact-lastname").innerHTML = contact_lastname;
-  document.getElementById("contact-phone").innerHTML = contact_phone;
-  document.getElementById("contact-email").innerHTML = contact_email;
-  */
-  
-  var jsonPayload = {
-		firstName: contact_firstname,
-		lastName: contact_lastname,
-		phone: contact_phone,
-		email: contact_email,
-		user_id: id
-	}
 
-	//Telling xhr what page to send the request to
-	var url = urlBase + '/api/contacts/update' + extension;
-
-	var xhr = new XMLHttpRequest();
-	//synchronous opening is deprecated, throws up warning
-	xhr.open("POST", url, true);
-	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
-	try {
-		xhr.onreadystatechange = function () {
-			if (this.readyState == 4) {
-				var jsonObject = JSON.parse(xhr.responseText);
-				if (jsonObject.error == 0) {
-					document.getElementById("firstName").value = "";
-					document.getElementById("lastName").value = "";
-					document.getElementById("phoneNumber").value = "";
-					document.getElementById("emailAddr").value = "";
-					document.getElementById("addContactResult").innerText = "Contact added successfully";
-				} else {
-					document.getElementById("addContactResult").innerText = "Error: " + jsonObject.error_message;
-				}
-			}
-		};
-
-		xhr.send(JSON.stringify(jsonPayload));
-	}
-	catch (err) {
-		document.getElementById("addContactResult").innerText = "Error communicating with server";
-	}
-
-  
-  show_contact();
-}
