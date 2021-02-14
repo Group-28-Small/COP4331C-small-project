@@ -187,6 +187,8 @@ function saveCookie()
 	document.cookie = "account_data=" + btoa(JSON.stringify(account_data))+ ";expires=" + date.toGMTString();
 }
 
+//Create invisible form with info of contact, when click edit fill form field with real contact data, submit form which sends it to the edit page 
+
 function readCookie()
 {
 	userId = -1;
@@ -345,6 +347,7 @@ function add_contact_box(contact) {
 		</div>
        `
 }
+
 
 function delete_contact(id) {
 	readCookie();
