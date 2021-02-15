@@ -354,22 +354,7 @@ function searchContacts() {
 
 }
 
-/*
-function add_contact_box(contact) {
-	return `
-		<div class="contact-card" id="contact_${contact.contact_id}">
-			<button type="button" onclick="toggle_block(\'contact_${contact.contact_id}\')" class="collapsible" style="align:center;width:80%">${contact.firstName + " " + contact.lastName}</button>
-			<div class="contact-content" style="display:block;padding-left:2px;padding-right:2px;padding-top:2px;padding-bottom:2px;width:80%">
-				<div style="font-size:24px">${contact.firstName + " " + contact.lastName}</div>
-				<div style="font-size:16px"><div style="display:inline-block" onclick="copy_on_click(\'${contact.phone}\')">${contact.phone}</div> 
-				<div style="display:inline-block" onclick="copy_on_click(\'${contact.email}\')">${contact.email}</div></div>
-				<button type="button" onclick="edit_contact(\'${contact.contact_id}\')">Edit</button>
-				<button onclick="delete_contact(\'${contact.contact_id}\')" type="button">Delete</button>
-			</div>
-		</div>
-       `
-}
-*/
+//<button type="button" class="contact-button" id="button-delete_${contact.contact_id}" onclick="delete_contact(${contact.contact_id})" style="display:inline">Delete</button>
 
 function add_contact_box(contact) {
 	return `
@@ -382,7 +367,7 @@ function add_contact_box(contact) {
 		<div id="contact-phone_${contact.contact_id}">${contact.phone}</div>
 		<div id="contact-email_${contact.contact_id}">${contact.email}</div>
 		<button type="button" class="contact-button" id="button-edit_${contact.contact_id}" onclick="edit_contact(${contact.contact_id})" style="display:inline">Edit</button>
-		<button type="button" class="contact-button" id="button-delete_${contact.contact_id}" onclick="delete_contact(${contact.contact_id})" style="display:inline">Delete</button>
+		<button type="button" class="contact-button" id="button-delete_${contact.contact_id}" onclick="confirm_delete(${contact.contact_id})" style="display:inline">Delete</button>
 	  </div>
 	  <div id="contact-edit_${contact.contact_id}" style="display:none">
 		<form>
@@ -521,15 +506,19 @@ function cancel_edit(id)
    show_contact(id);
  }
 
- /*
-function edit_contact(id) {
-	ID = id;
-	
-	saveCookie();
-	
-	window.location.href = urlBase + 'edit' + extension;
+//Function to confrim deletion of contact
+function confirm_delete(id){
+
+  	var r = confirm("Press OK to delete the contact, otherwise cancel.");
+
+  	if (r == true) {
+    	delete_contact(id);
+  	} else {
+    	return
+ 	}
+
 }
-*/
+
 function delete_contact(id) {
 	readCookie();
 
@@ -574,20 +563,6 @@ function delete_contact(id) {
 
 	xhr.send(JSON.stringify(jsonPayload));
 }
-
-/*
-function toggle_block(id) {
-	console.log("toggling " + id);
-	var blk = document.getElementById(id);
-	blk.children[0].classList.toggle("active");
-	var content = blk.children[1];
-	if (content.style.display === "block") {
-		content.style.display = "none";
-	} else {
-		content.style.display = "block";
-	}
-}
-*/
 
 function copy_on_click(text) {
 	toastr.info("Copied " + text);
