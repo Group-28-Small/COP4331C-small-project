@@ -26,12 +26,12 @@ header {
   border-radius: 5px
 }
 .contact-card{
-  width: 50%;
+  width: 75%;
   margin-bottom: 10px;
 }
 
 .container{
-  width: 25%;
+  width: 33%;
 }
 
 .contact-content{
@@ -74,11 +74,11 @@ input {
 }
 
 .contact-entry-input{
- width: 80%;
+ width: 50%;
 }
 
 .search-input{
-  width: 90%;
+  width: 50%;
 }
 
 span.error{

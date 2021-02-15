@@ -360,7 +360,7 @@ function add_contact_box(contact) {
 	return `
 	<div class="contact-card" id="contact_${contact.contact_id}">
 	<button type="button" class="collapsible" onclick="toggle_block(${contact.contact_id})">${contact.firstName + " " + contact.lastName}</button>
-	<div class="contact-content" style="display:block">
+	<div class="contact-content" style="display:none">
 	  <div id="contact-display_${contact.contact_id}" style="display:block">
 		<div id="contact-firstname_${contact.contact_id}">${contact.firstName}</div>
 		<div id="contact-lastname_${contact.contact_id}">${contact.lastName}</div>
