@@ -357,9 +357,22 @@ function searchContacts() {
 //<button type="button" class="contact-button" id="button-delete_${contact.contact_id}" onclick="delete_contact(${contact.contact_id})" style="display:inline">Delete</button>
 
 function add_contact_box(contact) {
+
+	var fill;
+	if(contact.firstName === "" && contact.lastName === "")
+		if(contact.phone === "")
+			fill = contact.email;
+		else
+			fill = contact.phone;
+	else
+		if(contact.firstName === "")
+			fill = contact.lastName;
+		else
+			fill = contact.firstName + " " + contact.lastName;
+
 	return `
 	<div class="contact-card" id="contact_${contact.contact_id}">
-	<button type="button" class="collapsible" onclick="toggle_block(${contact.contact_id})">${contact.firstName + " " + contact.lastName}</button>
+	<button type="button" class="collapsible" onclick="toggle_block(${contact.contact_id})">${fill}</button>
 	<div class="contact-content" style="display:block">
 	  <div id="contact-display_${contact.contact_id}" style="display:block">
 		<div id="contact-firstname_${contact.contact_id}">${contact.firstName}</div>
