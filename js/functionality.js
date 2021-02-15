@@ -327,7 +327,7 @@ function searchContacts() {
 						for (var i = 0; i < jsonObject.results.length; i++) {
 							var contact = jsonObject.results[i];
 							console.log(contact)
-							document.getElementById("contact-list").innerHTML += add_contact_box(contact);
+							document.getElementById("contact-list").innerHTML += add_contact_box(contact, false);
 
 						}
 					}
@@ -356,7 +356,7 @@ function searchContacts() {
 
 //<button type="button" class="contact-button" id="button-delete_${contact.contact_id}" onclick="delete_contact(${contact.contact_id})" style="display:inline">Delete</button>
 
-function add_contact_box(contact) {
+function add_contact_box(contact, collapsed = true) {
 
 	var fill;
 	if(contact.firstName === "" && contact.lastName === "")
@@ -369,11 +369,14 @@ function add_contact_box(contact) {
 			fill = contact.lastName;
 		else
 			fill = contact.firstName + " " + contact.lastName;
-
+	var show = "block";
+	if (collapsed) {
+		show = "none";
+	}
 	return `
 	<div class="contact-card" id="contact_${contact.contact_id}">
 	<button type="button" class="collapsible" onclick="toggle_block(${contact.contact_id})">${fill}</button>
-	<div class="contact-content" style="display:none">
+	<div class="contact-content" style="display:${show}">
 	  <div id="contact-display_${contact.contact_id}" style="display:block">
 		<div id="contact-firstname_${contact.contact_id}">${contact.firstName}</div>
 		<div id="contact-lastname_${contact.contact_id}">${contact.lastName}</div>
