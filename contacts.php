@@ -6,6 +6,19 @@
 	<script type="text/javascript" src="js/functionality.js"></script>
 	<script>
 		document.addEventListener("DOMContentLoaded", function(){
+			$('#searchBar').keypress(function (event) {
+					try{
+						if(event.keyCode === 13)
+						{
+							console.log("searching...");
+							searchContacts();
+							return false;
+						}
+					}catch(ex){
+						console.log(ex);
+					}
+				});
+
 			loadAllContacts();
 		});
 	</script>
@@ -38,7 +51,7 @@
 	  <form>
 	  <p>Search Contacts</p>
 		<input type="text" name="searchBar" id="searchBar" placeholder="Search..." class="search-input">
-		<input type="button" onclick="searchContacts()" value="Search">
+		<input type="button" id="submit-button" onclick="searchContacts()" value="Search">
 		<input type="button" onclick="resetSearchList()" value="Show All"><br><br>
 		<span id="contactSearchList"></span><br>
 		
