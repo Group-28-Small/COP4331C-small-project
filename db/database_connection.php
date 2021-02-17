@@ -63,14 +63,6 @@ class DBConnection
         return $this->connected;
     }
 
-    function send_raw_query($query)
-    {
-        if (!$this->connected) {
-            throw new Exception("not connected!");
-        }
-        return $this->connection->query($query);
-    }
-
     function get_user_by_username($user_name)
     {
         $this->get_user_by_username_statement->bind_param("s", $user_name);
