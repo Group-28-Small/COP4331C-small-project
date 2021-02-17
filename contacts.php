@@ -27,7 +27,7 @@
 			  integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="
 			  crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css"/>
-	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.1/toastr.min.js" integrity="sha384-cR9OdLWzP+eOZItBWNVEm3zJlMwpsygHZEejCoRxYSxcrwXqQqTTqbHORK2ltJES" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="styles.css"/>
   </head>
   <body>
